@@ -7,6 +7,7 @@ import android.util.Log;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -55,7 +56,7 @@ public class StreetsLoader {
         } else if (numberOfParts == 3) {
             result = parseWithDescription(parts);
         } else {
-            Log.e(TAG, "parseStreetEntry: broken String: " + parts);
+            Log.e(TAG, "parseStreetEntry: broken String: " + Arrays.toString(parts));
             throw new RuntimeException("parseStreetEntry: broken String:"); // TODO
         }
         return result;
