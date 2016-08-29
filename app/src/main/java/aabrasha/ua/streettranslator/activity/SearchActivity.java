@@ -4,15 +4,16 @@ import aabrasha.ua.streettranslator.R;
 import aabrasha.ua.streettranslator.fragment.ResultsFragment;
 import aabrasha.ua.streettranslator.fragment.SearchFragment;
 import aabrasha.ua.streettranslator.model.StreetEntry;
-import aabrasha.ua.streettranslator.sqlite.StreetsOpenHelper;
+import aabrasha.ua.streettranslator.model.StreetsService;
 import aabrasha.ua.streettranslator.util.IOUtils;
+import aabrasha.ua.streettranslator.util.TextWatcherAdapter;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -31,6 +32,7 @@ public class SearchActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private ResultsFragment resultsFragment;
     private SearchFragment searchFragment;
+    private StreetsService streetsService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +41,18 @@ public class SearchActivity extends AppCompatActivity {
 
         initViews();
         initFragments();
+        initServices();
+    }
+
+    private void initServices() {
+        streetsService = new StreetsService(this);
     }
 
     private void initFragments() {
         fragmentManager = getSupportFragmentManager();
-
         resultsFragment = new ResultsFragment();
-
         searchFragment = new SearchFragment();
+
         setSearchFragment();
         setResultsFragment();
     }
@@ -73,20 +79,10 @@ public class SearchActivity extends AppCompatActivity {
     private void initViews() {
         etSearch = (EditText) findViewById(R.id.et_search);
 
-        etSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
+        etSearch.addTextChangedListener(new TextWatcherAdapter() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 findStreets();
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
             }
         });
 
@@ -101,8 +97,6 @@ public class SearchActivity extends AppCompatActivity {
         findViewById(R.id.btn_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO use android.os.AsyncTask
-                // with cancelling it
                 findStreets();
             }
         });
@@ -111,20 +105,39 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void findStreets() {
-
         String nameLike = etSearch.getText().toString();
         if (nameLike.length() == 0) {
-            // TODO
-            resultsFragment.setItems(new StreetsOpenHelper(this).getAll());
+            resultsFragment.setItems(streetsService.getAll());
             return;
         }
-        List<StreetEntry> items = new StreetsOpenHelper(this).getByNameLike(nameLike);
+        List<StreetEntry> items = streetsService.getByNameLike(nameLike);
         resultsFragment.setItems(items);
-
     }
 
     private void focusSearchField() {
         InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.showSoftInput(etSearch, InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_populate_with_default_streets:
+                populateWithDefaultStreetList();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+
+    private void populateWithDefaultStreetList() {
+        streetsService.fillWithSampleData();
     }
 }

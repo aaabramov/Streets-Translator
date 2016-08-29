@@ -23,7 +23,7 @@ public class StreetsLoader {
         this.context = context;
     }
 
-    public List<StreetEntry> getSampleStreetEntries() {
+    public List<StreetEntry> getDefaultStreetEntries() {
         final InputStream is = context.getResources().openRawResource(R.raw.streets);
         String lines = IOUtils.readAll(is);
         final String[] entries = lines.split("\\n");
@@ -52,7 +52,6 @@ public class StreetsLoader {
         StreetEntry result;
         if (numberOfParts == 2) {
             result = parseWithNoDescription(parts);
-            result.setDescription("no desc for: " + withId);
         } else if (numberOfParts == 3) {
             result = parseWithDescription(parts);
         } else {

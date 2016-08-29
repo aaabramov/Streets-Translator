@@ -1,6 +1,7 @@
 package aabrasha.ua.streettranslator.fragment;
 
 import aabrasha.ua.streettranslator.R;
+import aabrasha.ua.streettranslator.fragment.adapter.StreetEntryAdapter;
 import aabrasha.ua.streettranslator.model.StreetEntry;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,7 +18,6 @@ import java.util.List;
 public class ResultsFragment extends ListFragment {
 
     private StreetEntryAdapter adapter;
-//    private List<StreetEntry> items;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,7 +34,6 @@ public class ResultsFragment extends ListFragment {
     }
 
     public void setItems(List<StreetEntry> items) {
-//        this.items = items;
         final StreetEntryAdapter adapter = (StreetEntryAdapter) getListAdapter();
         adapter.clear();
         adapter.addAll(items);

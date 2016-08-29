@@ -1,4 +1,4 @@
-package aabrasha.ua.streettranslator.fragment;
+package aabrasha.ua.streettranslator.fragment.adapter;
 
 import aabrasha.ua.streettranslator.R;
 import aabrasha.ua.streettranslator.model.StreetEntry;
@@ -19,24 +19,24 @@ public class StreetEntryAdapter extends ArrayAdapter<StreetEntry> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View itemContainer, ViewGroup parent) {
 
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_street_entry, null);
+        if (itemContainer == null) {
+            itemContainer = LayoutInflater.from(getContext()).inflate(R.layout.list_item_street_entry, null);
         }
 
-        fillItemData(position, convertView);
-        return convertView;
+        fillItemData(position, itemContainer);
+        return itemContainer;
     }
 
-    private void fillItemData(int position, View convertView) {
+    private void fillItemData(int position, View itemContainer) {
         StreetEntry item = getItem(position);
 
-        TextView tvNewName = (TextView) convertView.findViewById(R.id.item_text_new_street_name);
+        TextView tvNewName = (TextView) itemContainer.findViewById(R.id.item_text_new_street_name);
         tvNewName.setText(item.getNewName());
-        TextView tvOldName = (TextView) convertView.findViewById(R.id.item_text_old_street_name);
+        TextView tvOldName = (TextView) itemContainer.findViewById(R.id.item_text_old_street_name);
         tvOldName.setText(item.getOldName());
-        TextView tvDescription = (TextView) convertView.findViewById(R.id.item_text_street_description);
+        TextView tvDescription = (TextView) itemContainer.findViewById(R.id.item_text_street_description);
         tvDescription.setText(item.getDescription());
     }
 }

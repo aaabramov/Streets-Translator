@@ -3,7 +3,6 @@ package aabrasha.ua.streettranslator.sqlite;
 import aabrasha.ua.streettranslator.R;
 import aabrasha.ua.streettranslator.model.StreetEntry;
 import aabrasha.ua.streettranslator.util.IOUtils;
-import aabrasha.ua.streettranslator.util.StreetsLoader;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -60,37 +59,36 @@ public class StreetsOpenHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // TODO extract to another class!
     public List<StreetEntry> getAll() {
-
-        SQLiteDatabase readableDatabase = getReadableDatabase();
-
-        Cursor cursor = readableDatabase.query(false, STREETS_TABLE_NAME, null, null, null, null, null, null, null);
-
-        List<StreetEntry> result = parseCursor(cursor);
-        readableDatabase.close();
-        return result;
+        Cursor result = getAllStreetsCursor();
+        return parseCursor(result);
     }
 
-    public List<StreetEntry> getByNameLike(String nameLike) {
-        String query = "SELECT * FROM streets where " +
+    private Cursor getAllStreetsCursor() {
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+        return QueryTemplates.getAllQuery(readableDatabase, STREETS_TABLE_NAME, false);
+    }
+
+    public List<StreetEntry> getStreetsByNameLike(String nameLike) {
+        String query = getByNameLikeQuery(nameLike);
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+        Cursor result = QueryTemplates.getRawQuery(readableDatabase, query);
+        return parseCursor(result);
+    }
+
+    private String getByNameLikeQuery(String nameLike) {
+        return "SELECT * FROM streets where " +
                 "old_name_cmp like '%" + nameLike.toUpperCase() + "%' " +
                 "OR " +
                 "new_name_cmp like '%" + nameLike.toUpperCase() + "%'";
-        final SQLiteDatabase readableDatabase = getReadableDatabase();
-        Cursor c = readableDatabase.rawQuery(query, null);
-        return parseCursor(c);
     }
 
-    public void fillWithSampleData() {
-        StreetsLoader loader = new StreetsLoader(context);
-        final List<StreetEntry> items = loader.getSampleStreetEntries();
-        final SQLiteDatabase writableDatabase = getWritableDatabase();
-        for (StreetEntry item : items) {
-            writableDatabase.insert(STREETS_TABLE_NAME, null, fromStreetEntry(item));
-        }
-        writableDatabase.close();
+    public long insertStreetEntry(StreetEntry streetEntry) {
+        Log.d(TAG, "insertStreetEntry: inserting " + streetEntry);
+        SQLiteDatabase writableDatabase = getWritableDatabase();
+        return QueryTemplates.insertQuery(writableDatabase, STREETS_TABLE_NAME, fromStreetEntry(streetEntry));
     }
+
 
     private ContentValues fromStreetEntry(StreetEntry item) {
         ContentValues result = new ContentValues();
