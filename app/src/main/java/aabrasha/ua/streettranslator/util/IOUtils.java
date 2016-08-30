@@ -6,7 +6,7 @@ import java.io.*;
 
 /**
  * Created by Andrii Abramov on 8/27/16.
- */
+*/
 public final class IOUtils {
 
     public static final String TAG = IOUtils.class.getSimpleName();

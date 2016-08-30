@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * Created by Andrii Abramov on 8/27/16.
- */
+*/
 public class ResultsFragment extends ListFragment {
 
     private StreetEntryAdapter adapter;

@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Created by Andrii Abramov on 8/29/16.
- */
+*/
 public class StreetsService {
 
     public static final String TAG = StreetsService.class.getSimpleName();

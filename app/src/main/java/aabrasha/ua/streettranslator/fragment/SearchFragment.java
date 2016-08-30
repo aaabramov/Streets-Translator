@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 /**
  * Created by Andrii Abramov on 8/27/16.
- */
+*/
 public class SearchFragment extends Fragment {
 
     @Nullable

@@ -22,7 +22,7 @@ import java.util.List;
 
 /**
  * Created by Andrii Abramov on 8/27/16.
- */
+*/
 public class SearchActivity extends AppCompatActivity {
 
     public static final String TAG = SearchActivity.class.getSimpleName();

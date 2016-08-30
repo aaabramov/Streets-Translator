@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 /**
  * Created by Andrii Abramov on 8/28/16.
- */
+*/
 public class StreetEntryAdapter extends ArrayAdapter<StreetEntry> {
 
     public StreetEntryAdapter(Context context) {
