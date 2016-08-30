@@ -3,6 +3,8 @@ package aabrasha.ua.streettranslator.util;
 import android.util.Log;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Andrii Abramov on 8/27/16.
@@ -30,6 +32,26 @@ public final class IOUtils {
         closeStream(is);
         return result.toString();
     }
+
+    /**
+     * The stream will be closed after is has been read
+     *
+     * @param is InputStream from which to read
+     * @return contents of the file in List<String>
+     */
+    public static List<String> readLines(InputStream is) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        List<String> result = new ArrayList<>();
+
+        String line;
+        while ((line = readLine(reader)) != null) {
+            result.add(line);
+        }
+
+        closeStream(is);
+        return result;
+    }
+
 
     private static String readLine(BufferedReader in) {
         try {

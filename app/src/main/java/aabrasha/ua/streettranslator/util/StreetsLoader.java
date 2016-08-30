@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Created by Andrii Abramov on 8/27/16.
-*/
+ */
 public class StreetsLoader {
 
     public static final String TAG = StreetsLoader.class.getSimpleName();
@@ -25,15 +25,14 @@ public class StreetsLoader {
 
     public List<StreetEntry> getDefaultStreetEntries() {
         final InputStream is = context.getResources().openRawResource(R.raw.streets);
-        String lines = IOUtils.readAll(is);
-        final String[] entries = lines.split("\\n");
-        return fromStringList(entries);
+        List<String> lines = IOUtils.readLines(is);
+        return fromStringList(lines);
     }
 
-    private List<StreetEntry> fromStringList(String[] lines) {
-        List<StreetEntry> result = new ArrayList<>(lines.length);
+    private List<StreetEntry> fromStringList(List<String> entries) {
+        List<StreetEntry> result = new ArrayList<>(entries.size());
         int lastId = 0;
-        for (String line : lines) {
+        for (String line : entries) {
             result.add(parseStreetEntry(line, lastId));
             lastId++;
         }
