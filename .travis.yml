@@ -1,0 +1,7 @@
+language: android
+android:
+  components:
+    - build-tools-24.0.0
+    - android-24
+    - extra
+install: ./gradlew clean assembleRelease
