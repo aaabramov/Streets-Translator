@@ -7,7 +7,7 @@ import android.util.Log;
 
 /**
  * Created by Andrii Abramov on 8/29/16.
- */
+*/
 public final class QueryTemplates {
 
     public static final String TAG = QueryTemplates.class.getSimpleName();

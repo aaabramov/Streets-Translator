@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Created by Andrii Abramov on 8/27/16.
- */
+*/
 public class StreetsLoader {
 
     public static final String TAG = StreetsLoader.class.getSimpleName();

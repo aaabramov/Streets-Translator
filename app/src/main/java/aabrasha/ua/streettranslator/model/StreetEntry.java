@@ -2,7 +2,7 @@ package aabrasha.ua.streettranslator.model;
 
 /**
  * Created by Andrii Abramov on 8/27/16.
- */
+*/
 public class StreetEntry {
 
     private Integer id;

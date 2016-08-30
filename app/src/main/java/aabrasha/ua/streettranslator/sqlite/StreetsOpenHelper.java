@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * Created by Andrii Abramov on 8/28/16.
- */
+*/
 public class StreetsOpenHelper extends SQLiteOpenHelper {
 
     public static final String TAG = StreetsOpenHelper.class.getSimpleName();
