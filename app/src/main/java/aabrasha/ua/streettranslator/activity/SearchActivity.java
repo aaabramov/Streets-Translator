@@ -37,7 +37,7 @@ public class SearchActivity extends AppCompatActivity {
     private ResultsFragment resultsFragment;
     private SearchFragment searchFragment;
     private StreetsService streetsService;
-    private AsyncStreetsLoader lastAsynkLoading;
+    private AsyncStreetLoadTask lastAsyncLoadingTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void initServices() {
         streetsService = new StreetsService(this);
-        lastAsynkLoading = new AsyncStreetsLoader();
+        lastAsyncLoadingTask = new AsyncStreetLoadTask();
     }
 
     private void initFragments() {
@@ -107,15 +107,15 @@ public class SearchActivity extends AppCompatActivity {
         String nameLike = etSearch.getText().toString();
 
         if (shouldCancelLastTask()) {
-            lastAsynkLoading.cancel(true);
+            lastAsyncLoadingTask.cancel(true);
         }
 
-        lastAsynkLoading = new AsyncStreetsLoader();
-        lastAsynkLoading.execute(nameLike);
+        lastAsyncLoadingTask = new AsyncStreetLoadTask();
+        lastAsyncLoadingTask.execute(nameLike);
     }
 
     private boolean shouldCancelLastTask() {
-        return lastAsynkLoading != null && !lastAsynkLoading.isCancelled();
+        return lastAsyncLoadingTask != null && !lastAsyncLoadingTask.isCancelled();
     }
 
     private void focusSearchField() {
@@ -195,7 +195,7 @@ public class SearchActivity extends AppCompatActivity {
         Toast.makeText(SearchActivity.this, "Deleted " + numOfDeletedRows + " streets", Toast.LENGTH_SHORT).show();
     }
 
-    private class AsyncStreetsLoader extends AsyncTask<String, Void, List<StreetEntry>> {
+    private class AsyncStreetLoadTask extends AsyncTask<String, Void, List<StreetEntry>> {
 
         @Override
         protected List<StreetEntry> doInBackground(String... strings) {

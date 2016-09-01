@@ -21,7 +21,7 @@
 		<EditText
 				android:id="@+id/et_search"
 				android:layout_width="0dp"
-				android:layout_weight="9"
+				android:layout_weight="1"
 				android:layout_height="wrap_content"
 				android:hint="@string/hint_search_field">
 
@@ -30,9 +30,8 @@
 
 		<ImageButton
 				android:id="@+id/btn_clear_search"
-				android:layout_width="0dp"
+				android:layout_width="wrap_content"
 				android:layout_height="match_parent"
-				android:layout_weight="1"
 				android:text="@string/btn_clear"
 				android:src="@android:drawable/ic_menu_close_clear_cancel"
 				style="?attr/buttonBarButtonStyle"/>
