@@ -8,21 +8,25 @@ import aabrasha.ua.streettranslator.model.StreetsService;
 import aabrasha.ua.streettranslator.util.IOUtils;
 import aabrasha.ua.streettranslator.util.TextWatcherAdapter;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.List;
 
 /**
  * Created by Andrii Abramov on 8/27/16.
-*/
+ */
 public class SearchActivity extends AppCompatActivity {
 
     public static final String TAG = SearchActivity.class.getSimpleName();
@@ -33,6 +37,7 @@ public class SearchActivity extends AppCompatActivity {
     private ResultsFragment resultsFragment;
     private SearchFragment searchFragment;
     private StreetsService streetsService;
+    private AsyncStreetsLoader lastAsynkLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +47,13 @@ public class SearchActivity extends AppCompatActivity {
         initViews();
         initFragments();
         initServices();
+
+        findStreets();
     }
 
     private void initServices() {
         streetsService = new StreetsService(this);
+        lastAsynkLoading = new AsyncStreetsLoader();
     }
 
     private void initFragments() {
@@ -93,25 +101,21 @@ public class SearchActivity extends AppCompatActivity {
                 focusSearchField();
             }
         });
-
-        findViewById(R.id.btn_search).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                findStreets();
-            }
-        });
-
-
     }
 
     private void findStreets() {
         String nameLike = etSearch.getText().toString();
-        if (nameLike.length() == 0) {
-            resultsFragment.setItems(streetsService.getAll());
-            return;
+
+        if (shouldCancelLastTask()) {
+            lastAsynkLoading.cancel(true);
         }
-        List<StreetEntry> items = streetsService.getByNameLike(nameLike);
-        resultsFragment.setItems(items);
+
+        lastAsynkLoading = new AsyncStreetsLoader();
+        lastAsynkLoading.execute(nameLike);
+    }
+
+    private boolean shouldCancelLastTask() {
+        return lastAsynkLoading != null && !lastAsynkLoading.isCancelled();
     }
 
     private void focusSearchField() {
@@ -129,7 +133,10 @@ public class SearchActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_populate_with_default_streets:
-                populateWithDefaultStreetList();
+                confirmPopulateWithDefaultDialog();
+                break;
+            case R.id.menu_item_clear_streets_database:
+                confirmClearDatabaseDialog();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -137,7 +144,78 @@ public class SearchActivity extends AppCompatActivity {
         return true;
     }
 
-    private void populateWithDefaultStreetList() {
-        streetsService.fillWithSampleData();
+    private void confirmPopulateWithDefaultDialog() {
+        new AlertDialog.Builder(this)
+                .setCancelable(true)
+                .setTitle("Add streets")
+                .setMessage("Are you sure to populate database with default streets? This will erase all previous streets!")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        populateWithDefaultStreetList();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).create().show();
+
     }
+
+    private void confirmClearDatabaseDialog() {
+        new AlertDialog.Builder(this)
+                .setCancelable(true)
+                .setTitle("Deleting streets")
+                .setMessage("Are you sure to delete all streets?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        clearStreetsDatabase();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).create().show();
+
+    }
+
+    private void populateWithDefaultStreetList() {
+        clearStreetsDatabase();
+        int numOfAddedRows = streetsService.fillWithSampleData();
+        Toast.makeText(SearchActivity.this, "Added " + numOfAddedRows + " streets", Toast.LENGTH_SHORT).show();
+    }
+
+    private void clearStreetsDatabase() {
+        int numOfDeletedRows = streetsService.cleanDatabase();
+        Toast.makeText(SearchActivity.this, "Deleted " + numOfDeletedRows + " streets", Toast.LENGTH_SHORT).show();
+    }
+
+    private class AsyncStreetsLoader extends AsyncTask<String, Void, List<StreetEntry>> {
+
+        @Override
+        protected List<StreetEntry> doInBackground(String... strings) {
+            String nameLike = strings[0];
+
+            List<StreetEntry> result;
+
+            if (nameLike.length() == 0) {
+                result = streetsService.getAll();
+            } else {
+                result = streetsService.getByNameLike(nameLike);
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(List<StreetEntry> items) {
+            resultsFragment.setItems(items);
+        }
+    }
+
 }

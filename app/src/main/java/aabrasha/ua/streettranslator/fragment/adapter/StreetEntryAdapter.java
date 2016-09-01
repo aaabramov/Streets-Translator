@@ -9,9 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 /**
  * Created by Andrii Abramov on 8/28/16.
-*/
+ */
 public class StreetEntryAdapter extends ArrayAdapter<StreetEntry> {
 
     public StreetEntryAdapter(Context context) {
@@ -30,13 +33,24 @@ public class StreetEntryAdapter extends ArrayAdapter<StreetEntry> {
     }
 
     private void fillItemData(int position, View itemContainer) {
-        StreetEntry item = getItem(position);
+        StreetEntry streetEntry = getItem(position);
 
         TextView tvNewName = (TextView) itemContainer.findViewById(R.id.item_text_new_street_name);
-        tvNewName.setText(item.getNewName());
+        tvNewName.setText(streetEntry.getNewName());
+
         TextView tvOldName = (TextView) itemContainer.findViewById(R.id.item_text_old_street_name);
-        tvOldName.setText(item.getOldName());
+        tvOldName.setText(streetEntry.getOldName());
+
         TextView tvDescription = (TextView) itemContainer.findViewById(R.id.item_text_street_description);
-        tvDescription.setText(item.getDescription());
+        fillDescription(tvDescription, streetEntry);
+    }
+
+    private void fillDescription(TextView tvDescription, StreetEntry streetEntry) {
+        if (streetEntry.getDescription() == null) {
+            tvDescription.setVisibility(GONE);
+        } else {
+            tvDescription.setVisibility(VISIBLE);
+            tvDescription.setText(streetEntry.getDescription());
+        }
     }
 }

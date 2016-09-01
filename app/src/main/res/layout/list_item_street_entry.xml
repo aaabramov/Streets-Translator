@@ -7,25 +7,25 @@
 			android:id="@+id/item_text_old_street_name"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:textSize="30sp"
+			android:textSize="14sp"
 			android:text="Old street name"
 			android:gravity="center"/>
 	<ImageView
 			android:layout_width="match_parent"
-			android:layout_height="15dp"
+			android:layout_height="10dp"
 			android:src="@drawable/arrown_down"/>
 	<TextView
 			android:id="@+id/item_text_new_street_name"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:textSize="30sp"
+			android:textSize="14sp"
 			android:text="New street name"
 			android:gravity="center"/>
 	<TextView
 			android:id="@+id/item_text_street_description"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:textSize="20sp"
+			android:textSize="12sp"
 			android:text="Some description here"
 			android:gravity="center"/>
 

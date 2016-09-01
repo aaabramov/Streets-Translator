@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * Created by Andrii Abramov on 8/28/16.
-*/
+ */
 public class StreetsOpenHelper extends SQLiteOpenHelper {
 
     public static final String TAG = StreetsOpenHelper.class.getSimpleName();
@@ -60,6 +60,7 @@ public class StreetsOpenHelper extends SQLiteOpenHelper {
     }
 
     public List<StreetEntry> getAll() {
+        Log.d(TAG, "getAll: gettings all streets");
         Cursor result = getAllStreetsCursor();
         return parseCursor(result);
     }
@@ -70,6 +71,7 @@ public class StreetsOpenHelper extends SQLiteOpenHelper {
     }
 
     public List<StreetEntry> getStreetsByNameLike(String nameLike) {
+        Log.d(TAG, "getStreetsByNameLike: Searching by name like: " + nameLike);
         String query = getByNameLikeQuery(nameLike);
         SQLiteDatabase readableDatabase = getReadableDatabase();
         Cursor result = QueryTemplates.getRawQuery(readableDatabase, query);
@@ -131,4 +133,7 @@ public class StreetsOpenHelper extends SQLiteOpenHelper {
 
     }
 
+    public int deleteAllStreets() {
+        return QueryTemplates.deleteAll(getWritableDatabase(), STREETS_TABLE_NAME);
+    }
 }

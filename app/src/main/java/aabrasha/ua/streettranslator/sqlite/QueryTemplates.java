@@ -22,6 +22,11 @@ public final class QueryTemplates {
         return database.rawQuery(query, null);
     }
 
+    public static int deleteAll(SQLiteDatabase database, String tableName) {
+        Log.d(TAG, "deleteAll: from table " + tableName);
+        return database.delete(tableName, null, null);
+    }
+
     public static long insertQuery(SQLiteDatabase database, String tableName, ContentValues data) {
         Log.d(TAG, "insertQuery: for " + tableName + " inserting " + data);
         if (database.isReadOnly()) {

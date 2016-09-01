@@ -12,37 +12,30 @@
 		android:orientation="vertical"
 		>
 
-	<EditText
-			android:id="@+id/et_search"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:hint="@string/hint_search_field"
-			>
-
-		<requestFocus/>
-	</EditText>
 
 	<LinearLayout
 			android:layout_width="match_parent"
-			android:layout_height="50dp"
-			android:orientation="horizontal"
-			>
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
 
-		<Button
+		<EditText
+				android:id="@+id/et_search"
+				android:layout_width="0dp"
+				android:layout_weight="9"
+				android:layout_height="wrap_content"
+				android:hint="@string/hint_search_field">
+
+			<requestFocus/>
+		</EditText>
+
+		<ImageButton
 				android:id="@+id/btn_clear_search"
-				android:layout_width="match_parent"
+				android:layout_width="0dp"
 				android:layout_height="match_parent"
 				android:layout_weight="1"
 				android:text="@string/btn_clear"
-				style="?android:attr/buttonBarButtonStyle"/>
-
-		<Button
-				android:id="@+id/btn_search"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:layout_weight="1"
-				android:text="@string/btn_ok"
-				style="?android:attr/buttonBarButtonStyle"/>
+				android:src="@android:drawable/ic_menu_close_clear_cancel"
+				style="?attr/buttonBarButtonStyle"/>
 
 	</LinearLayout>
 </LinearLayout>
