@@ -3,11 +3,11 @@
 This project was created for searching between old and new street names in Kyiv.
 
 Technologies:
-* Java 8
+* Java
 * Gradle
 * Android Studio
 * Jenkins
-* Groovy (later ?)
+* Groovy + Spock 
 
 
 You can follow my progress in [Trello](https://trello.com/b/w1ZWxYFJ/streets-translator):
