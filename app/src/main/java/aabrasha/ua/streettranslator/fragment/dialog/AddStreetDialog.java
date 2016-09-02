@@ -5,6 +5,7 @@ import aabrasha.ua.streettranslator.model.StreetEntry;
 import aabrasha.ua.streettranslator.service.StreetsService;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,14 +25,22 @@ public class AddStreetDialog extends DialogFragment {
 
     private static final String TAG = AddStreetDialog.class.getSimpleName();
 
+    private Context context;
+
     private EditText etOldName;
     private EditText etNewName;
     private EditText etDescription;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        context = getActivity();
+    }
+
+    @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final View dialogContent = initView();
-        return new AlertDialog.Builder(getActivity())
+        return new AlertDialog.Builder(context)
                 .setCancelable(true)
                 .setTitle(R.string.title_add_new_street)
                 .setView(dialogContent)
@@ -64,21 +73,21 @@ public class AddStreetDialog extends DialogFragment {
         new SaveStreetTask().execute(dialogInterface);
     }
 
-    private class SaveStreetTask extends AsyncTask<DialogInterface, Void, Void> {
+    private class SaveStreetTask extends AsyncTask<DialogInterface, Void, Boolean> {
 
         @Override
-        protected Void doInBackground(DialogInterface... dialogs) {
+        protected Boolean doInBackground(DialogInterface... dialogs) {
             DialogInterface dialog = dialogs[0];
 
             if (requiredDataPresents()) {
                 StreetEntry added = parseStreetEntryFromFields();
                 StreetsService.getInstance().addNewStreetEntry(added);
                 dialog.dismiss();
+                return true;
             } else {
-                Toast.makeText(getActivity(), "Specify at least `Old name` or `New name`", Toast.LENGTH_LONG).show();
                 Log.d(TAG, "saveStreet: Not all required fields were filled in");
+                return false;
             }
-            return null;
         }
 
         private boolean requiredDataPresents() {
@@ -90,6 +99,15 @@ public class AddStreetDialog extends DialogFragment {
             String newName = etNewName.getText().toString();
             String description = etDescription.getText().toString();
             return StreetEntry.from(oldName, newName, description);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            if (success) {
+                Toast.makeText(context, "Success!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "Specify at least `Old name` or `New name`", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
