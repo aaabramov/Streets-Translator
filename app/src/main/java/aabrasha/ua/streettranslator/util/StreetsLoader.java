@@ -1,6 +1,7 @@
 package aabrasha.ua.streettranslator.util;
 
 import aabrasha.ua.streettranslator.R;
+import aabrasha.ua.streettranslator.StreetsApplication;
 import aabrasha.ua.streettranslator.model.StreetEntry;
 import android.content.Context;
 import android.util.Log;
@@ -15,16 +16,12 @@ import java.util.List;
  */
 public class StreetsLoader {
 
-    public static final String TAG = StreetsLoader.class.getSimpleName();
-
-    private Context context;
-
-    public StreetsLoader(Context context) {
-        this.context = context;
-    }
+    private static final String TAG = StreetsLoader.class.getSimpleName();
+    private static final String PARTS_DELIMITER = ":";
 
     public List<StreetEntry> getDefaultStreetEntries() {
-        final InputStream is = context.getResources().openRawResource(R.raw.streets);
+        Context appContext = StreetsApplication.getContext();
+        InputStream is = appContext.getResources().openRawResource(R.raw.streets);
         List<String> lines = IOUtils.readLines(is);
         return fromStringList(lines);
     }
@@ -40,8 +37,8 @@ public class StreetsLoader {
     }
 
     private StreetEntry parseStreetEntry(String from, int withId) {
-        final String[] parts = from.split(":");
-        final StreetEntry result = parseFromParts(parts, withId);
+        String[] parts = from.split(PARTS_DELIMITER);
+        StreetEntry result = parseFromParts(parts, withId);
         result.setId(withId);
         return result;
     }

@@ -1,8 +1,9 @@
-package aabrasha.ua.streettranslator.model;
+package aabrasha.ua.streettranslator.service;
 
+import aabrasha.ua.streettranslator.StreetsApplication;
+import aabrasha.ua.streettranslator.model.StreetEntry;
 import aabrasha.ua.streettranslator.sqlite.StreetsOpenHelper;
 import aabrasha.ua.streettranslator.util.StreetsLoader;
-import android.content.Context;
 import android.util.Log;
 
 import java.util.List;
@@ -14,12 +15,16 @@ public class StreetsService {
 
     public static final String TAG = StreetsService.class.getSimpleName();
 
-    private StreetsOpenHelper streetsDatabase;
-    private Context context;
+    private static final StreetsService INSTANCE = new StreetsService();
 
-    public StreetsService(Context context) {
-        this.context = context;
-        this.streetsDatabase = new StreetsOpenHelper(context);
+    private StreetsOpenHelper streetsDatabase;
+
+    private StreetsService() {
+        this.streetsDatabase = StreetsApplication.getStreetsDatabase();
+    }
+
+    public static StreetsService getInstance() {
+        return INSTANCE;
     }
 
     public List<StreetEntry> getAll() {
@@ -28,6 +33,13 @@ public class StreetsService {
 
     public List<StreetEntry> getByNameLike(String nameLike) {
         return streetsDatabase.getStreetsByNameLike(nameLike);
+    }
+
+    public long addNewStreetEntry(StreetEntry entry) {
+        Log.d(TAG, "addNewStreetEntry: adding " + entry);
+        long id = streetsDatabase.insertStreetEntry(entry);
+        Log.d(TAG, "addNewStreetEntry: added with id " + id);
+        return id;
     }
 
     public int cleanDatabase() {
@@ -39,12 +51,14 @@ public class StreetsService {
 
     public int fillWithSampleData() {
         Log.d(TAG, "fillWithSampleData: starting to populate data");
-        StreetsLoader loader = new StreetsLoader(context);
+        StreetsLoader loader = new StreetsLoader();
+
         List<StreetEntry> items = loader.getDefaultStreetEntries();
         for (StreetEntry item : items) {
             Log.d(TAG, "fillWithSampleData: adding " + item);
             streetsDatabase.insertStreetEntry(item);
         }
+
         int numOfAddedRows = items.size();
         Log.d(TAG, String.format("fillWithSampleData: added %d items", numOfAddedRows));
 

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="16dp">
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:text="@string/title_old_name"
+			android:layout_marginBottom="@dimen/dialog_vertical_margin"/>
+
+	<EditText
+			android:id="@+id/et_old_name"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="@string/hint_old_name"
+			android:textSize="@dimen/edit_text_size"
+			android:layout_marginBottom="@dimen/dialog_vertical_margin"/>
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:text="@string/title_new_name"/>
+
+	<EditText
+			android:id="@+id/et_new_name"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="@string/hint_new_name"
+			android:textSize="@dimen/edit_text_size"
+			android:layout_marginBottom="@dimen/dialog_vertical_margin"/>
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:text="@string/title_description"/>
+
+	<EditText
+			android:id="@+id/et_description"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="@string/hint_description"
+			android:textSize="@dimen/edit_text_size"/>
+
+</LinearLayout>

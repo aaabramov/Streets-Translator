@@ -3,8 +3,9 @@ package aabrasha.ua.streettranslator.activity;
 import aabrasha.ua.streettranslator.R;
 import aabrasha.ua.streettranslator.fragment.ResultsFragment;
 import aabrasha.ua.streettranslator.fragment.SearchFragment;
+import aabrasha.ua.streettranslator.fragment.dialog.AddStreetDialog;
 import aabrasha.ua.streettranslator.model.StreetEntry;
-import aabrasha.ua.streettranslator.model.StreetsService;
+import aabrasha.ua.streettranslator.service.StreetsService;
 import aabrasha.ua.streettranslator.util.IOUtils;
 import aabrasha.ua.streettranslator.util.TextWatcherAdapter;
 import android.content.Context;
@@ -52,7 +53,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void initServices() {
-        streetsService = new StreetsService(this);
+        streetsService = StreetsService.getInstance();
         lastAsyncLoadingTask = new AsyncStreetLoadTask();
     }
 
@@ -138,10 +139,17 @@ public class SearchActivity extends AppCompatActivity {
             case R.id.menu_item_clear_streets_database:
                 confirmClearDatabaseDialog();
                 break;
+            case R.id.menu_item_add_street:
+                openAddNewStreetDialog();
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    private void openAddNewStreetDialog() {
+        new AddStreetDialog().show(getFragmentManager(), TAG);
     }
 
     private void confirmPopulateWithDefaultDialog() {
@@ -187,11 +195,13 @@ public class SearchActivity extends AppCompatActivity {
     private void populateWithDefaultStreetList() {
         clearStreetsDatabase();
         int numOfAddedRows = streetsService.fillWithSampleData();
+        findStreets();
         Toast.makeText(SearchActivity.this, "Added " + numOfAddedRows + " streets", Toast.LENGTH_SHORT).show();
     }
 
     private void clearStreetsDatabase() {
         int numOfDeletedRows = streetsService.cleanDatabase();
+        findStreets();
         Toast.makeText(SearchActivity.this, "Deleted " + numOfDeletedRows + " streets", Toast.LENGTH_SHORT).show();
     }
 

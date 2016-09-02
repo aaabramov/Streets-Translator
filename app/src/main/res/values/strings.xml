@@ -5,4 +5,15 @@
     <string name="btn_ok">OK</string>
     <string name="menu_item_add_default">Add default streets</string>
     <string name="menu_item_clear_streets">Clear streets</string>
+    <string name="menu_item_delete">Delete</string>
+    <string name="menu_item_edit">Edit</string>
+    <string name="menu_item_add_street">Add street</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="hint_description">Description</string>
+    <string name="hint_new_name">New name</string>
+    <string name="hint_old_name">Old name</string>
+    <string name="title_add_new_street">Add new street</string>
+    <string name="title_description">Description:</string>
+    <string name="title_new_name">New name:</string>
+    <string name="title_old_name">Old name:</string>
 </resources>
