@@ -27,11 +27,9 @@ public class StreetsOpenHelper extends SQLiteOpenHelper {
 
     private final String CREATE_SCRIPT;
     private final String UPDATE_SCRIPT;
-    private final Context context;
 
     public StreetsOpenHelper(Context context) {
         super(context, DB_NAME, null, VERSION);
-        this.context = context;
         Log.d(TAG, "StreetsOpenHelper: Instantiating Streets database");
         CREATE_SCRIPT = IOUtils.readAll(context.getResources().openRawResource(R.raw.streets_init));
         UPDATE_SCRIPT = IOUtils.readAll(context.getResources().openRawResource(R.raw.streets_update));
@@ -60,7 +58,7 @@ public class StreetsOpenHelper extends SQLiteOpenHelper {
     }
 
     public List<StreetEntry> getAll() {
-        Log.d(TAG, "getAll: gettings all streets");
+        Log.d(TAG, "getAll: getting all streets");
         Cursor result = getAllStreetsCursor();
         return parseCursor(result);
     }
