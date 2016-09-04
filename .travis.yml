@@ -1,4 +1,5 @@
 language: android
+install: ./gradlew clean assemble
 android:
   components:
     - tools
