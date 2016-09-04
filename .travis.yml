@@ -1,5 +1,6 @@
 language: android
-install: ./gradlew clean assemble
+jdk:
+  - oraclejdk8
 android:
   components:
     - tools
@@ -8,3 +9,4 @@ android:
     - android-24
     - extra-android-m2repository
 
+install: ./gradlew clean assemble
