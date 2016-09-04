@@ -3,6 +3,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
+
 	<TextView
 			android:id="@+id/item_text_old_street_name"
 			android:layout_width="match_parent"
@@ -10,10 +11,12 @@
 			android:textSize="14sp"
 			android:text="Old street name"
 			android:gravity="center"/>
+
 	<ImageView
 			android:layout_width="match_parent"
 			android:layout_height="10dp"
 			android:src="@drawable/arrow_down"/>
+
 	<TextView
 			android:id="@+id/item_text_new_street_name"
 			android:layout_width="match_parent"
@@ -21,6 +24,7 @@
 			android:textSize="14sp"
 			android:text="New street name"
 			android:gravity="center"/>
+
 	<TextView
 			android:id="@+id/item_text_street_description"
 			android:layout_width="match_parent"

@@ -17,9 +17,9 @@ import java.util.List;
 /**
  * Created by Andrii Abramov on 8/28/16.
  */
-public class StreetsOpenHelper extends SQLiteOpenHelper {
+public class StreetsDatabase extends SQLiteOpenHelper {
 
-    private static final String TAG = StreetsOpenHelper.class.getSimpleName();
+    private static final String TAG = StreetsDatabase.class.getSimpleName();
 
     private static final int VERSION = 4;
     private static final String DB_NAME = "street_entries.db";
@@ -28,9 +28,9 @@ public class StreetsOpenHelper extends SQLiteOpenHelper {
     private final String CREATE_SCRIPT;
     private final String UPDATE_SCRIPT;
 
-    public StreetsOpenHelper(Context context) {
+    public StreetsDatabase(Context context) {
         super(context, DB_NAME, null, VERSION);
-        Log.d(TAG, "StreetsOpenHelper: Instantiating Streets database");
+        Log.d(TAG, "StreetsDatabase: Instantiating Streets database");
         CREATE_SCRIPT = IOUtils.readAll(context.getResources().openRawResource(R.raw.streets_init));
         UPDATE_SCRIPT = IOUtils.readAll(context.getResources().openRawResource(R.raw.streets_update));
     }
@@ -129,6 +129,10 @@ public class StreetsOpenHelper extends SQLiteOpenHelper {
         result.setDescription(description);
         return result;
 
+    }
+
+    public int deleteById(long id) {
+        return QueryTemplates.deleteById(getWritableDatabase(), STREETS_TABLE_NAME, id);
     }
 
     public int deleteAllStreets() {

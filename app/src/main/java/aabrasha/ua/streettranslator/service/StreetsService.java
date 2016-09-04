@@ -2,7 +2,7 @@ package aabrasha.ua.streettranslator.service;
 
 import aabrasha.ua.streettranslator.StreetsApplication;
 import aabrasha.ua.streettranslator.model.StreetEntry;
-import aabrasha.ua.streettranslator.sqlite.StreetsOpenHelper;
+import aabrasha.ua.streettranslator.sqlite.StreetsDatabase;
 import aabrasha.ua.streettranslator.util.StreetsLoader;
 import android.util.Log;
 
@@ -17,7 +17,7 @@ public class StreetsService {
 
     private static final StreetsService INSTANCE = new StreetsService();
 
-    private StreetsOpenHelper streetsDatabase;
+    private StreetsDatabase streetsDatabase;
 
     private StreetsService() {
         this.streetsDatabase = StreetsApplication.getStreetsDatabase();
@@ -40,6 +40,13 @@ public class StreetsService {
         long id = streetsDatabase.insertStreetEntry(entry);
         Log.d(TAG, "addNewStreetEntry: added with id " + id);
         return id;
+    }
+
+    public int deleteById(long id){
+        Log.d(TAG, "deleteById: id = " + id);
+        int numOfDeletedRows = streetsDatabase.deleteById(id);
+        Log.d(TAG, String.format("deleteById: deleted %d rows", numOfDeletedRows));
+        return numOfDeletedRows;
     }
 
     public int cleanDatabase() {

@@ -1,6 +1,6 @@
 package aabrasha.ua.streettranslator;
 
-import aabrasha.ua.streettranslator.sqlite.StreetsOpenHelper;
+import aabrasha.ua.streettranslator.sqlite.StreetsDatabase;
 import android.app.Application;
 import android.content.Context;
 
@@ -9,10 +9,10 @@ import android.content.Context;
  */
 public class StreetsApplication extends Application {
 
-    private static StreetsOpenHelper streetsDatabase;
+    private static StreetsDatabase streetsDatabase;
     private static Context applicationContext;
 
-    public static StreetsOpenHelper getStreetsDatabase() {
+    public static StreetsDatabase getStreetsDatabase() {
         return streetsDatabase;
     }
 
@@ -23,7 +23,7 @@ public class StreetsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        streetsDatabase = new StreetsOpenHelper(getApplicationContext());
+        streetsDatabase = new StreetsDatabase(getApplicationContext());
         applicationContext = getApplicationContext();
     }
 }

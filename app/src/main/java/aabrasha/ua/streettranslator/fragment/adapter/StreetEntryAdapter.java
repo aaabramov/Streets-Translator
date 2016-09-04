@@ -2,18 +2,18 @@ package aabrasha.ua.streettranslator.fragment.adapter;
 
 import aabrasha.ua.streettranslator.R;
 import aabrasha.ua.streettranslator.model.StreetEntry;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by Andrii Abramov on 8/28/16.
  */
-public class StreetEntryAdapter extends RecyclerView.Adapter<StreetEntryViewHolder> {
+public class StreetEntryAdapter extends AccessibleRecyclerViewAdapter<StreetEntry, StreetEntryViewHolder> {
 
     private List<StreetEntry> items = new ArrayList<>();
 
@@ -41,10 +41,24 @@ public class StreetEntryAdapter extends RecyclerView.Adapter<StreetEntryViewHold
         return items.size();
     }
 
-    public void setItems(List<StreetEntry> items) {
-        this.items = items;
+    public void setItems(Collection<StreetEntry> items) {
+        this.items = new ArrayList<>(items);
         notifyDataSetChanged();
     }
 
+    @Override
+    public StreetEntry getItem(int position) {
+        return items.get(position);
+    }
 
+    @Override
+    public void remove(int position) {
+        items.remove(position);
+    }
+
+    @Override
+    public void remove(StreetEntry item) {
+        items.remove(item);
+        notifyDataSetChanged();
+    }
 }

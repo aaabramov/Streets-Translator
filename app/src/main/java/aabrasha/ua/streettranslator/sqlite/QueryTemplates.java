@@ -7,7 +7,7 @@ import android.util.Log;
 
 /**
  * Created by Andrii Abramov on 8/29/16.
-*/
+ */
 public final class QueryTemplates {
 
     private static final String TAG = QueryTemplates.class.getSimpleName();
@@ -29,11 +29,20 @@ public final class QueryTemplates {
 
     public static long insertQuery(SQLiteDatabase database, String tableName, ContentValues data) {
         Log.d(TAG, "insertQuery: for " + tableName + " inserting " + data);
+        checkDatabaseIsWritable(database, tableName);
+        return database.insert(tableName, null, data);
+    }
+
+    public static int deleteById(SQLiteDatabase database, String tableName, long id) {
+        Log.d(TAG, "deleteById: deleting by id = " + id);
+        checkDatabaseIsWritable(database, tableName);
+        return database.delete(tableName, "_id = " + id, null);
+    }
+
+    private static void checkDatabaseIsWritable(SQLiteDatabase database, String tableName) {
         if (database.isReadOnly()) {
             Log.e(TAG, "insertQuery: for " + tableName + " you should provide WritableDatabase");
             throw new RuntimeException("To insert data into database you should provide WritableDatabase!");
         }
-        return database.insert(tableName, null, data);
     }
-
 }
