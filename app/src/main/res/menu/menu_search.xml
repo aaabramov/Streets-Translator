@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:compat="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<item
-			android:id="@+id/menu_item_add_street"
-			android:title="@string/menu_item_add_street"
-			android:icon="@android:drawable/ic_menu_add"
-			compat:showAsAction="always"/>
 	<item
 			android:id="@+id/menu_item_populate_with_default_streets"
 			android:title="@string/menu_item_add_default"

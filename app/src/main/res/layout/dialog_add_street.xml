@@ -18,7 +18,9 @@
 			android:layout_height="wrap_content"
 			android:hint="@string/hint_old_name"
 			android:textSize="@dimen/edit_text_size"
-			android:layout_marginBottom="@dimen/dialog_vertical_margin"/>
+			android:layout_marginBottom="@dimen/dialog_vertical_margin"
+			android:imeOptions="actionNext"
+			android:singleLine="true"/>
 
 	<TextView
 			android:layout_width="wrap_content"
@@ -32,7 +34,9 @@
 			android:layout_height="wrap_content"
 			android:hint="@string/hint_new_name"
 			android:textSize="@dimen/edit_text_size"
-			android:layout_marginBottom="@dimen/dialog_vertical_margin"/>
+			android:layout_marginBottom="@dimen/dialog_vertical_margin"
+			android:imeOptions="actionNext"
+			android:singleLine="true"/>
 
 	<TextView
 			android:layout_width="wrap_content"
@@ -45,6 +49,8 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:hint="@string/hint_description"
-			android:textSize="@dimen/edit_text_size"/>
+			android:textSize="@dimen/edit_text_size"
+			android:imeOptions="actionDone"
+			android:singleLine="true"/>
 
 </LinearLayout>

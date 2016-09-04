@@ -11,7 +11,7 @@ import java.util.List;
 */
 public final class IOUtils {
 
-    public static final String TAG = IOUtils.class.getSimpleName();
+    private static final String TAG = IOUtils.class.getSimpleName();
     public static final String EMPTY_STRING = "";
 
     /**

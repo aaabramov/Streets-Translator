@@ -3,7 +3,6 @@ package aabrasha.ua.streettranslator.activity;
 import aabrasha.ua.streettranslator.R;
 import aabrasha.ua.streettranslator.fragment.ResultsFragment;
 import aabrasha.ua.streettranslator.fragment.SearchFragment;
-import aabrasha.ua.streettranslator.fragment.dialog.AddStreetDialog;
 import aabrasha.ua.streettranslator.model.StreetEntry;
 import aabrasha.ua.streettranslator.service.StreetsService;
 import aabrasha.ua.streettranslator.util.IOUtils;
@@ -30,7 +29,7 @@ import java.util.List;
  */
 public class SearchActivity extends AppCompatActivity {
 
-    public static final String TAG = SearchActivity.class.getSimpleName();
+    private static final String TAG = SearchActivity.class.getSimpleName();
 
     private EditText etSearch;
 
@@ -49,7 +48,7 @@ public class SearchActivity extends AppCompatActivity {
         initFragments();
         initServices();
 
-        findStreets();
+        findAllStreets();
     }
 
     private void initServices() {
@@ -91,7 +90,7 @@ public class SearchActivity extends AppCompatActivity {
         etSearch.addTextChangedListener(new TextWatcherAdapter() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                findStreets();
+                findStreets(charSequence.toString());
             }
         });
 
@@ -104,8 +103,8 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    private void findStreets() {
-        String nameLike = etSearch.getText().toString();
+    private void findStreets(String pattern) {
+        String nameLike = pattern.trim();
 
         if (shouldCancelLastTask()) {
             lastAsyncLoadingTask.cancel(true);
@@ -113,6 +112,10 @@ public class SearchActivity extends AppCompatActivity {
 
         lastAsyncLoadingTask = new AsyncStreetLoadTask();
         lastAsyncLoadingTask.execute(nameLike);
+    }
+
+    private void findAllStreets() {
+        findStreets("");
     }
 
     private boolean shouldCancelLastTask() {
@@ -132,6 +135,7 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.menu_item_populate_with_default_streets:
                 confirmPopulateWithDefaultDialog();
@@ -139,17 +143,11 @@ public class SearchActivity extends AppCompatActivity {
             case R.id.menu_item_clear_streets_database:
                 confirmClearDatabaseDialog();
                 break;
-            case R.id.menu_item_add_street:
-                openAddNewStreetDialog();
-                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
-        return true;
-    }
 
-    private void openAddNewStreetDialog() {
-        new AddStreetDialog().show(getFragmentManager(), TAG);
+        return true;
     }
 
     private void confirmPopulateWithDefaultDialog() {
@@ -195,14 +193,14 @@ public class SearchActivity extends AppCompatActivity {
     private void populateWithDefaultStreetList() {
         clearStreetsDatabase();
         int numOfAddedRows = streetsService.fillWithSampleData();
-        findStreets();
         Toast.makeText(SearchActivity.this, "Added " + numOfAddedRows + " streets", Toast.LENGTH_SHORT).show();
+        findAllStreets();
     }
 
     private void clearStreetsDatabase() {
         int numOfDeletedRows = streetsService.cleanDatabase();
-        findStreets();
         Toast.makeText(SearchActivity.this, "Deleted " + numOfDeletedRows + " streets", Toast.LENGTH_SHORT).show();
+        findAllStreets();
     }
 
     private class AsyncStreetLoadTask extends AsyncTask<String, Void, List<StreetEntry>> {

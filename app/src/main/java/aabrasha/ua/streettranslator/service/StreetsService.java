@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class StreetsService {
 
-    public static final String TAG = StreetsService.class.getSimpleName();
+    private static final String TAG = StreetsService.class.getSimpleName();
 
     private static final StreetsService INSTANCE = new StreetsService();
 

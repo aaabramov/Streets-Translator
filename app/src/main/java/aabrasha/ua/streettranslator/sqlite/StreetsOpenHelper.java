@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class StreetsOpenHelper extends SQLiteOpenHelper {
 
-    public static final String TAG = StreetsOpenHelper.class.getSimpleName();
+    private static final String TAG = StreetsOpenHelper.class.getSimpleName();
 
     private static final int VERSION = 4;
     private static final String DB_NAME = "street_entries.db";

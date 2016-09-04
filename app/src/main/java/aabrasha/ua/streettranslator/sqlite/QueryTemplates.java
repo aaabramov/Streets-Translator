@@ -10,7 +10,7 @@ import android.util.Log;
 */
 public final class QueryTemplates {
 
-    public static final String TAG = QueryTemplates.class.getSimpleName();
+    private static final String TAG = QueryTemplates.class.getSimpleName();
 
     public static Cursor getAllQuery(SQLiteDatabase database, String tableName, boolean distinct) {
         Log.d(TAG, "getAllQuery: for " + tableName);
