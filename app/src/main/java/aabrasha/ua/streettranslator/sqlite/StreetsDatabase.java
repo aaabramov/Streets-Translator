@@ -111,7 +111,7 @@ public class StreetsDatabase extends SQLiteOpenHelper {
                 } while (cursor.moveToNext());
             }
             cursor.close();
-            return result; // TODO
+            return result;
         } else {
             return (ArrayList<StreetEntry>) Collections.EMPTY_LIST;
         }

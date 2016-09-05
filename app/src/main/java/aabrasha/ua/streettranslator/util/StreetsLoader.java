@@ -38,12 +38,12 @@ public class StreetsLoader {
 
     private StreetEntry parseStreetEntry(String from, int withId) {
         String[] parts = from.split(PARTS_DELIMITER);
-        StreetEntry result = parseFromParts(parts, withId);
+        StreetEntry result = parseFromParts(parts);
         result.setId(withId);
         return result;
     }
 
-    private StreetEntry parseFromParts(String[] parts, int withId) {
+    private StreetEntry parseFromParts(String[] parts) {
         final int numberOfParts = parts.length;
         StreetEntry result;
         if (numberOfParts == 2) {

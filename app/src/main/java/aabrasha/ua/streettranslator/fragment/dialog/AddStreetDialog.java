@@ -104,9 +104,9 @@ public class AddStreetDialog extends DialogFragment {
         @Override
         protected void onPostExecute(Boolean success) {
             if (success) {
-                Toast.makeText(context, "Success!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.title_success, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(context, "Specify at least `Old name` or `New name`", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, R.string.hint_invalid_street_fields, Toast.LENGTH_LONG).show();
             }
         }
     }

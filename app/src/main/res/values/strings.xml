@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Street Translator</string>
-    <string name="hint_search_field">type search here…</string>
+    <string name="hint_search_field">Search here…</string>
     <string name="btn_clear">clear</string>
-    <string name="btn_ok">OK</string>
+    <string name="btn_ok"
+    >OK</string>
     <string name="menu_item_add_default">Add default streets</string>
     <string name="menu_item_clear_streets">Clear streets</string>
     <string name="menu_item_delete">Delete</string>
@@ -16,4 +17,15 @@
     <string name="title_description">Description:</string>
     <string name="title_new_name">New name:</string>
     <string name="title_old_name">Old name:</string>
+    <string name="btn_yes">Yes</string>
+    <string name="title_add_default_streets">Add default streets</string>
+    <string name="hint_are_you_sure_to_populate_database_with_default_streets">Are you sure to populate database
+        with default streets? This will erase all previous streets!
+    </string>
+    <string name="title_deleting_streets">Deleting streets</string>
+    <string name="hint_are_you_sure_to_delete_all_streets">Are you sure to delete all streets?</string>
+    <string name="report_streets_removed">Streets removed: %1$d</string>
+    <string name="report_streets_added">Streets added: %1$d</string>
+    <string name="hint_invalid_street_fields">Specify at least `Old name` or `New name`</string>
+    <string name="title_success">Success</string>
 </resources>

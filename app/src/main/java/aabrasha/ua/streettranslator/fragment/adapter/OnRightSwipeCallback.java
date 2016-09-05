@@ -13,17 +13,19 @@ import android.view.View;
 /**
  * Created by Andrii Abramov on 9/4/16.
  */
-public abstract class StreetListSwipeCallback extends ItemTouchHelper.SimpleCallback {
+public abstract class OnRightSwipeCallback extends ItemTouchHelper.SimpleCallback {
 
-    private static final String TAG = StreetListSwipeCallback.class.getSimpleName();
+    private static final String TAG = OnRightSwipeCallback.class.getSimpleName();
+
     private static final int NO_DRAG_DIRECTIONS = 0;
+    private static final int SWIPE_DIRECTION_RIGHT = ItemTouchHelper.RIGHT;
 
     private Context context;
     private Drawable trashIcon;
     private Drawable drawable;
 
-    public StreetListSwipeCallback(int swipeDirs) {
-        super(NO_DRAG_DIRECTIONS, swipeDirs);
+    public OnRightSwipeCallback() {
+        super(NO_DRAG_DIRECTIONS, SWIPE_DIRECTION_RIGHT);
         context = StreetsApplication.getContext();
 
         drawable = getDrawable(R.drawable.item_swipe_to_remove);

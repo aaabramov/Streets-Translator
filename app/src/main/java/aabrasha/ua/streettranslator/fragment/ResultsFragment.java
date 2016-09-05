@@ -2,7 +2,7 @@ package aabrasha.ua.streettranslator.fragment;
 
 import aabrasha.ua.streettranslator.R;
 import aabrasha.ua.streettranslator.fragment.adapter.StreetEntryAdapter;
-import aabrasha.ua.streettranslator.fragment.adapter.StreetListSwipeCallback;
+import aabrasha.ua.streettranslator.fragment.adapter.OnRightSwipeCallback;
 import aabrasha.ua.streettranslator.fragment.dialog.AddStreetDialog;
 import aabrasha.ua.streettranslator.material.DividerItemDecoration;
 import aabrasha.ua.streettranslator.material.VerticalSpaceItemDecoration;
@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import static android.support.v7.widget.helper.ItemTouchHelper.RIGHT;
+import static java.lang.String.format;
 
 /**
  * Created by Andrii Abramov on 8/27/16.
@@ -73,7 +73,7 @@ public class ResultsFragment extends Fragment {
         resultsView.addItemDecoration(new VerticalSpaceItemDecoration(2));
         resultsView.addItemDecoration(new DividerItemDecoration(getActivity(), R.drawable.list_view_divider));
 
-        ItemTouchHelper.SimpleCallback simpleCallback = new StreetListSwipeCallback(RIGHT) {
+        ItemTouchHelper.SimpleCallback simpleCallback = new OnRightSwipeCallback() {
             @Override
             public void onRightSwipe(int position) {
                 removeStreetEntry(position);
@@ -86,7 +86,8 @@ public class ResultsFragment extends Fragment {
         StreetEntry itemToRemove = itemsAdapter.getItem(position);
         streetsService.deleteById(itemToRemove.getId());
         itemsAdapter.remove(itemToRemove);
-        Toast.makeText(getActivity(), "Deleted 1 item", Toast.LENGTH_SHORT).show();
+        String report = getResources().getString(R.string.report_streets_removed);
+        Toast.makeText(getActivity(), format(report, 1), Toast.LENGTH_SHORT).show();
     }
 
     public void setItems(List<StreetEntry> items) {

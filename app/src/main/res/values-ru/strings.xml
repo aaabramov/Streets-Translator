@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Улицы Киева</string>
+    <string name="btn_cancel">Отмена</string>
+    <string name="btn_clear">Очистить</string>
+    <string name="btn_ok">ОК</string>
+    <string name="btn_yes">Да</string>
+    <string name="hint_are_you_sure_to_delete_all_streets">Вы уверены, что хотите удалить все улицы?</string>
+    <string name="hint_are_you_sure_to_populate_database_with_default_streets">Вы уверены, что хотите заполнить базу
+        данных стандартными записями? Это действие удалит все предыдущие записи!
+    </string>
+    <string name="hint_description">Описание</string>
+    <string name="hint_invalid_street_fields">Укажите хотя бы `Старое название` или `Новое название`</string>
+    <string name="hint_new_name">Новое название</string>
+    <string name="hint_old_name">Старое название</string>
+    <string name="hint_search_field">Введите запрос…</string>
+    <string name="menu_item_add_default">Добавить стандартные улицы</string>
+    <string name="menu_item_add_street">Добавить улицу</string>
+    <string name="menu_item_clear_streets">Удалить улицы</string>
+    <string name="menu_item_delete">Удалить</string>
+    <string name="menu_item_edit">Редактировать</string>
+    <string name="report_streets_added">Добавлено улиц: %1$d</string>
+    <string name="report_streets_removed">Удалено улиц: %1$d</string>
+    <string name="title_add_default_streets">Добавить стандартные улицы</string>
+    <string name="title_add_new_street">Добавить новую улицу</string>
+    <string name="title_deleting_streets">Удалить улицы</string>
+    <string name="title_description">Описание:</string>
+    <string name="title_new_name">Новое название:</string>
+    <string name="title_old_name">Старое название:</string>
+    <string name="title_success">Есть!</string>
+</resources>

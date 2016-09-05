@@ -24,6 +24,9 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import static aabrasha.ua.streettranslator.util.IOUtils.EMPTY_STRING;
+import static java.lang.String.format;
+
 /**
  * Created by Andrii Abramov on 8/27/16.
  */
@@ -97,7 +100,7 @@ public class SearchActivity extends AppCompatActivity {
         findViewById(R.id.btn_clear_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                etSearch.setText(IOUtils.EMPTY_STRING);
+                etSearch.setText(EMPTY_STRING);
                 focusSearchField();
             }
         });
@@ -115,7 +118,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void findAllStreets() {
-        findStreets("");
+        findStreets(EMPTY_STRING);
     }
 
     private boolean shouldCancelLastTask() {
@@ -129,7 +132,6 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
         focusSearchField();
     }
 
@@ -159,15 +161,15 @@ public class SearchActivity extends AppCompatActivity {
     private void confirmPopulateWithDefaultDialog() {
         new AlertDialog.Builder(this)
                 .setCancelable(true)
-                .setTitle("Add streets")
-                .setMessage("Are you sure to populate database with default streets? This will erase all previous streets!")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.title_add_default_streets)
+                .setMessage(R.string.hint_are_you_sure_to_populate_database_with_default_streets)
+                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         populateWithDefaultStreetList();
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -179,15 +181,15 @@ public class SearchActivity extends AppCompatActivity {
     private void confirmClearDatabaseDialog() {
         new AlertDialog.Builder(this)
                 .setCancelable(true)
-                .setTitle("Deleting streets")
-                .setMessage("Are you sure to delete all streets?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.title_deleting_streets)
+                .setMessage(R.string.hint_are_you_sure_to_delete_all_streets)
+                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         clearStreetsDatabase();
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -198,14 +200,12 @@ public class SearchActivity extends AppCompatActivity {
 
     private void populateWithDefaultStreetList() {
         clearStreetsDatabase();
-        int numOfAddedRows = streetsService.fillWithSampleData();
-        Toast.makeText(SearchActivity.this, "Added " + numOfAddedRows + " streets", Toast.LENGTH_SHORT).show();
+        new AsyncPopulateWithDefaultTask().execute();
         findAllStreets();
     }
 
     private void clearStreetsDatabase() {
-        int numOfDeletedRows = streetsService.cleanDatabase();
-        Toast.makeText(SearchActivity.this, "Deleted " + numOfDeletedRows + " streets", Toast.LENGTH_SHORT).show();
+        new AsyncClearDatabaseTask().execute();
         findAllStreets();
     }
 
@@ -229,6 +229,34 @@ public class SearchActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<StreetEntry> items) {
             resultsFragment.setItems(items);
+        }
+    }
+
+    private class AsyncPopulateWithDefaultTask extends AsyncTask<Void, Void, Integer> {
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            return streetsService.fillWithSampleData();
+        }
+
+        @Override
+        protected void onPostExecute(Integer numOfAddedRows) {
+            String report = getResources().getString(R.string.report_streets_added);
+            Toast.makeText(SearchActivity.this, String.format(report, numOfAddedRows), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class AsyncClearDatabaseTask extends AsyncTask<Void, Void, Integer> {
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            return streetsService.cleanDatabase();
+        }
+
+        @Override
+        protected void onPostExecute(Integer numOfDeletedRows) {
+            String report = getResources().getString(R.string.report_streets_removed);
+            Toast.makeText(SearchActivity.this, format(report, numOfDeletedRows), Toast.LENGTH_SHORT).show();
         }
     }
 

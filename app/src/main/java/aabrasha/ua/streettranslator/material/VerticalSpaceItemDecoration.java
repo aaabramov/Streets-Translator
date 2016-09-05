@@ -6,17 +6,16 @@ import android.view.View;
 
 public class VerticalSpaceItemDecoration extends RecyclerView.ItemDecoration {
 
-    private final int mVerticalSpaceHeight;
+    private final int verticalSpaceHeight;
 
-    public VerticalSpaceItemDecoration(int mVerticalSpaceHeight) {
-        this.mVerticalSpaceHeight = mVerticalSpaceHeight;
+    public VerticalSpaceItemDecoration(int verticalSpaceHeight) {
+        this.verticalSpaceHeight = verticalSpaceHeight;
     }
 
     @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
-                               RecyclerView.State state) {
+    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         if (parent.getChildAdapterPosition(view) != parent.getAdapter().getItemCount() - 1) {
-            outRect.bottom = mVerticalSpaceHeight;
+            outRect.bottom = verticalSpaceHeight;
         }
     }
 }
