@@ -1,9 +1,11 @@
 package aabrasha.ua.streettranslator.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Andrii Abramov on 8/27/16.
  */
-public class StreetEntry {
+public class StreetEntry implements Serializable {
 
     private Integer id;
     private String oldName;

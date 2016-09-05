@@ -1,13 +1,18 @@
 package aabrasha.ua.streettranslator.fragment;
 
 import aabrasha.ua.streettranslator.R;
+import aabrasha.ua.streettranslator.fragment.adapter.OnLeftSwipeCallback;
+import aabrasha.ua.streettranslator.fragment.adapter.SearchPatternProvider;
 import aabrasha.ua.streettranslator.fragment.adapter.StreetEntryAdapter;
 import aabrasha.ua.streettranslator.fragment.adapter.OnRightSwipeCallback;
 import aabrasha.ua.streettranslator.fragment.dialog.AddStreetDialog;
+import aabrasha.ua.streettranslator.fragment.dialog.EditStreetDialog;
+import aabrasha.ua.streettranslator.fragment.dialog.OnDialogDismiss;
 import aabrasha.ua.streettranslator.material.DividerItemDecoration;
 import aabrasha.ua.streettranslator.material.VerticalSpaceItemDecoration;
 import aabrasha.ua.streettranslator.model.StreetEntry;
 import aabrasha.ua.streettranslator.service.StreetsService;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -33,6 +38,9 @@ public class ResultsFragment extends Fragment {
     private StreetsService streetsService;
     private StreetEntryAdapter itemsAdapter;
 
+    private AsyncStreetLoadTask lastAsyncLoadingTask;
+    private SearchPatternProvider patternProvider;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +52,7 @@ public class ResultsFragment extends Fragment {
     private void initServices() {
         itemsAdapter = new StreetEntryAdapter();
         streetsService = StreetsService.getInstance();
+        lastAsyncLoadingTask = new AsyncStreetLoadTask();
     }
 
     @Override
@@ -60,7 +69,13 @@ public class ResultsFragment extends Fragment {
         parent.findViewById(R.id.fab_add_street).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AddStreetDialog().show(getActivity().getFragmentManager(), TAG);
+                AddStreetDialog addStreetDialog = AddStreetDialog.newInstance(new OnDialogDismiss() {
+                    @Override
+                    public void onDismiss() {
+                        refreshStreetsResults();
+                    }
+                });
+                addStreetDialog.show(getActivity().getFragmentManager(), TAG);
             }
         });
     }
@@ -73,13 +88,38 @@ public class ResultsFragment extends Fragment {
         resultsView.addItemDecoration(new VerticalSpaceItemDecoration(2));
         resultsView.addItemDecoration(new DividerItemDecoration(getActivity(), R.drawable.list_view_divider));
 
-        ItemTouchHelper.SimpleCallback simpleCallback = new OnRightSwipeCallback() {
+        ItemTouchHelper.SimpleCallback removeOnRightSwipeCallback = new OnRightSwipeCallback() {
             @Override
             public void onRightSwipe(int position) {
                 removeStreetEntry(position);
             }
         };
-        new ItemTouchHelper(simpleCallback).attachToRecyclerView(resultsView);
+        ItemTouchHelper.SimpleCallback updateOnLeftSwipeCallback = new OnLeftSwipeCallback() {
+            @Override
+            public void onLeftSwipe(int position) {
+                updateStreetEntry(position);
+            }
+        };
+        new ItemTouchHelper(removeOnRightSwipeCallback).attachToRecyclerView(resultsView);
+        new ItemTouchHelper(updateOnLeftSwipeCallback).attachToRecyclerView(resultsView);
+    }
+
+    public void findStreets(String pattern) {
+
+        if (shouldCancelLastTask()) {
+            lastAsyncLoadingTask.cancel(true);
+        }
+
+        lastAsyncLoadingTask = new AsyncStreetLoadTask();
+        lastAsyncLoadingTask.execute(pattern);
+    }
+
+    public void refreshStreetsResults() {
+        findStreets(patternProvider.getPattern());
+    }
+
+    public void setPatternProvider(SearchPatternProvider patternProvider) {
+        this.patternProvider = patternProvider;
     }
 
     private void removeStreetEntry(int position) {
@@ -90,7 +130,41 @@ public class ResultsFragment extends Fragment {
         Toast.makeText(getActivity(), format(report, 1), Toast.LENGTH_SHORT).show();
     }
 
-    public void setItems(List<StreetEntry> items) {
-        itemsAdapter.setItems(items);
+    private void updateStreetEntry(int position) {
+        StreetEntry itemToUpdate = itemsAdapter.getItem(position);
+        EditStreetDialog updateDialog = EditStreetDialog.newInstance(itemToUpdate, new OnDialogDismiss() {
+            @Override
+            public void onDismiss() {
+                findStreets(patternProvider.getPattern());
+            }
+        });
+        updateDialog.show(getActivity().getFragmentManager(), TAG);
+    }
+
+    private boolean shouldCancelLastTask() {
+        return lastAsyncLoadingTask != null && !lastAsyncLoadingTask.isCancelled();
+    }
+
+    private class AsyncStreetLoadTask extends AsyncTask<String, Void, List<StreetEntry>> {
+
+        @Override
+        protected List<StreetEntry> doInBackground(String... strings) {
+            String nameLike = strings[0];
+
+            List<StreetEntry> result;
+
+            if (nameLike.length() == 0) {
+                result = streetsService.getAll();
+            } else {
+                result = streetsService.getByNameLike(nameLike);
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(List<StreetEntry> items) {
+            itemsAdapter.setItems(items);
+        }
     }
 }

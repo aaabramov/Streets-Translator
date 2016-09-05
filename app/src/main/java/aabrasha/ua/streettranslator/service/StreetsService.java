@@ -42,7 +42,12 @@ public class StreetsService {
         return id;
     }
 
-    public int deleteById(long id){
+    public long updateStreetEntry(StreetEntry entry) {
+        Log.d(TAG, "updateStreetEntry: updating " + entry);
+        return streetsDatabase.updateStreetEntry(entry);
+    }
+
+    public int deleteById(long id) {
         Log.d(TAG, "deleteById: id = " + id);
         int numOfDeletedRows = streetsDatabase.deleteById(id);
         Log.d(TAG, String.format("deleteById: deleted %d rows", numOfDeletedRows));

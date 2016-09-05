@@ -25,20 +25,20 @@ public class StreetsDatabase extends SQLiteOpenHelper {
     private static final String DB_NAME = "street_entries.db";
     private static final String STREETS_TABLE_NAME = "streets";
 
-    private final String CREATE_SCRIPT;
-    private final String UPDATE_SCRIPT;
+    private final Context context;
+
 
     public StreetsDatabase(Context context) {
         super(context, DB_NAME, null, VERSION);
+        this.context = context;
         Log.d(TAG, "StreetsDatabase: Instantiating Streets database");
-        CREATE_SCRIPT = IOUtils.readAll(context.getResources().openRawResource(R.raw.streets_init));
-        UPDATE_SCRIPT = IOUtils.readAll(context.getResources().openRawResource(R.raw.streets_update));
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d(TAG, "onCreate: Creating database: " + DB_NAME);
         Log.d(TAG, "onCreate: Database version: " + VERSION);
+        String CREATE_SCRIPT = IOUtils.readAll(context.getResources().openRawResource(R.raw.streets_init));
         Log.d(TAG, "onCreate: executing script: " + CREATE_SCRIPT);
         db.execSQL(CREATE_SCRIPT);
     }
@@ -53,6 +53,7 @@ public class StreetsDatabase extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.d(TAG, "onUpgrade: Updating database: " + DB_NAME);
         Log.d(TAG, String.format("onUpgrade: from %d to %d", oldVersion, newVersion));
+        String UPDATE_SCRIPT = IOUtils.readAll(context.getResources().openRawResource(R.raw.streets_update));
         Log.d(TAG, "onCreate: executing script: " + UPDATE_SCRIPT);
         onCreate(db);
     }
@@ -86,7 +87,13 @@ public class StreetsDatabase extends SQLiteOpenHelper {
     public long insertStreetEntry(StreetEntry streetEntry) {
         Log.d(TAG, "insertStreetEntry: inserting " + streetEntry);
         SQLiteDatabase writableDatabase = getWritableDatabase();
-        return QueryTemplates.insertQuery(writableDatabase, STREETS_TABLE_NAME, fromStreetEntry(streetEntry));
+        return QueryTemplates.insert(writableDatabase, STREETS_TABLE_NAME, fromStreetEntry(streetEntry));
+    }
+
+    public int updateStreetEntry(StreetEntry streetEntry) {
+        Log.d(TAG, "updateStreetEntry: inserting " + streetEntry);
+        SQLiteDatabase writableDatabase = getWritableDatabase();
+        return QueryTemplates.updateByIdQuery(writableDatabase, STREETS_TABLE_NAME, streetEntry.getId(), fromStreetEntry(streetEntry));
     }
 
 

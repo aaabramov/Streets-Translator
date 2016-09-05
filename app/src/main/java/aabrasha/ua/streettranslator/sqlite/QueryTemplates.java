@@ -27,8 +27,8 @@ public final class QueryTemplates {
         return database.delete(tableName, null, null);
     }
 
-    public static long insertQuery(SQLiteDatabase database, String tableName, ContentValues data) {
-        Log.d(TAG, "insertQuery: for " + tableName + " inserting " + data);
+    public static long insert(SQLiteDatabase database, String tableName, ContentValues data) {
+        Log.d(TAG, "insert: for " + tableName + " inserting " + data);
         checkDatabaseIsWritable(database, tableName);
         return database.insert(tableName, null, data);
     }
@@ -39,9 +39,15 @@ public final class QueryTemplates {
         return database.delete(tableName, "_id = " + id, null);
     }
 
+    public static int updateByIdQuery(SQLiteDatabase database, String tableName, Integer id, ContentValues data) {
+        Log.d(TAG, "updateByIdQuery: for " + tableName + " updating " + data);
+        checkDatabaseIsWritable(database, tableName);
+        return database.update(tableName, data, "_id = " + id, null);
+    }
+
     private static void checkDatabaseIsWritable(SQLiteDatabase database, String tableName) {
         if (database.isReadOnly()) {
-            Log.e(TAG, "insertQuery: for " + tableName + " you should provide WritableDatabase");
+            Log.e(TAG, "checkDatabaseIsWritable: for " + tableName + " you should provide WritableDatabase");
             throw new RuntimeException("To insert data into database you should provide WritableDatabase!");
         }
     }

@@ -28,4 +28,7 @@
     <string name="title_new_name">Новое название:</string>
     <string name="title_old_name">Старое название:</string>
     <string name="title_success">Есть!</string>
+    <string name="title_edit_street">Редактировать улицу</string>
+    <string name="btn_save">Сохранить</string>
+    <string name="btn_update">Обновить</string>
 </resources>

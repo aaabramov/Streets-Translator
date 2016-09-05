@@ -3,9 +3,9 @@ package aabrasha.ua.streettranslator.activity;
 import aabrasha.ua.streettranslator.R;
 import aabrasha.ua.streettranslator.fragment.ResultsFragment;
 import aabrasha.ua.streettranslator.fragment.SearchFragment;
+import aabrasha.ua.streettranslator.fragment.adapter.SearchPatternProvider;
 import aabrasha.ua.streettranslator.model.StreetEntry;
 import aabrasha.ua.streettranslator.service.StreetsService;
-import aabrasha.ua.streettranslator.util.IOUtils;
 import aabrasha.ua.streettranslator.util.TextWatcherAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -40,7 +40,6 @@ public class SearchActivity extends AppCompatActivity {
     private ResultsFragment resultsFragment;
     private SearchFragment searchFragment;
     private StreetsService streetsService;
-    private AsyncStreetLoadTask lastAsyncLoadingTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +55,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private void initServices() {
         streetsService = StreetsService.getInstance();
-        lastAsyncLoadingTask = new AsyncStreetLoadTask();
     }
 
     private void initFragments() {
@@ -64,16 +62,22 @@ public class SearchActivity extends AppCompatActivity {
         resultsFragment = new ResultsFragment();
         searchFragment = new SearchFragment();
 
-        setSearchFragment();
-        setResultsFragment();
+        initSearchFragment();
+        initResultsFragment();
     }
 
-    private void setSearchFragment() {
+    private void initSearchFragment() {
         searchFragment = (SearchFragment) initFragment(R.id.fragment_search, searchFragment);
     }
 
-    private void setResultsFragment() {
+    private void initResultsFragment() {
         resultsFragment = (ResultsFragment) initFragment(R.id.fragment_results, resultsFragment);
+        resultsFragment.setPatternProvider(new SearchPatternProvider() {
+            @Override
+            public String getPattern() {
+                return etSearch.getText().toString();
+            }
+        });
     }
 
     private Fragment initFragment(int fragmentId, Fragment fragmentToUse) {
@@ -106,23 +110,12 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    private void findStreets(String pattern) {
-        String nameLike = pattern.trim();
-
-        if (shouldCancelLastTask()) {
-            lastAsyncLoadingTask.cancel(true);
-        }
-
-        lastAsyncLoadingTask = new AsyncStreetLoadTask();
-        lastAsyncLoadingTask.execute(nameLike);
-    }
-
     private void findAllStreets() {
         findStreets(EMPTY_STRING);
     }
 
-    private boolean shouldCancelLastTask() {
-        return lastAsyncLoadingTask != null && !lastAsyncLoadingTask.isCancelled();
+    private void findStreets(String pattern) {
+        resultsFragment.findStreets(pattern.trim());
     }
 
     private void focusSearchField() {
@@ -207,29 +200,6 @@ public class SearchActivity extends AppCompatActivity {
     private void clearStreetsDatabase() {
         new AsyncClearDatabaseTask().execute();
         findAllStreets();
-    }
-
-    private class AsyncStreetLoadTask extends AsyncTask<String, Void, List<StreetEntry>> {
-
-        @Override
-        protected List<StreetEntry> doInBackground(String... strings) {
-            String nameLike = strings[0];
-
-            List<StreetEntry> result;
-
-            if (nameLike.length() == 0) {
-                result = streetsService.getAll();
-            } else {
-                result = streetsService.getByNameLike(nameLike);
-            }
-
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(List<StreetEntry> items) {
-            resultsFragment.setItems(items);
-        }
     }
 
     private class AsyncPopulateWithDefaultTask extends AsyncTask<Void, Void, Integer> {

@@ -2,8 +2,7 @@
     <string name="app_name">Street Translator</string>
     <string name="hint_search_field">Search here…</string>
     <string name="btn_clear">clear</string>
-    <string name="btn_ok"
-    >OK</string>
+    <string name="btn_ok">OK</string>
     <string name="menu_item_add_default">Add default streets</string>
     <string name="menu_item_clear_streets">Clear streets</string>
     <string name="menu_item_delete">Delete</string>
@@ -28,4 +27,7 @@
     <string name="report_streets_added">Streets added: %1$d</string>
     <string name="hint_invalid_street_fields">Specify at least `Old name` or `New name`</string>
     <string name="title_success">Success</string>
+    <string name="title_edit_street">Edit street</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_update">Update</string>
 </resources>
