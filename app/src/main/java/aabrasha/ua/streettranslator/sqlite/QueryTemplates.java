@@ -12,9 +12,14 @@ public final class QueryTemplates {
 
     private static final String TAG = QueryTemplates.class.getSimpleName();
 
-    public static Cursor getAllQuery(SQLiteDatabase database, String tableName, boolean distinct) {
+    public static Cursor getAllQuery(SQLiteDatabase database, String tableName) {
         Log.d(TAG, "getAllQuery: for " + tableName);
-        return database.query(distinct, tableName, null, null, null, null, null, null, null);
+        return getAllQuery(database, tableName, (String[]) null);
+    }
+
+    public static Cursor getAllQuery(SQLiteDatabase database, String tableName, String... columns) {
+        Log.d(TAG, "getAllQuery: for " + tableName);
+        return database.query(false, tableName, columns, null, null, null, null, null, null);
     }
 
     public static Cursor getRawQuery(SQLiteDatabase database, String query) {

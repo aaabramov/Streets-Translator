@@ -128,6 +128,7 @@ public class EditStreetDialog extends DialogFragment {
 
             if (requiredDataPresents()) {
                 StreetEntry updated = parseStreetEntryFromFields();
+                updated.setId(itemToUpdate.getId());
                 StreetsService.getInstance().updateStreetEntry(updated);
                 dialog.dismiss();
                 return true;

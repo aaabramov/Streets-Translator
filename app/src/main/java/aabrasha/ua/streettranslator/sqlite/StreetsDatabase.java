@@ -25,6 +25,10 @@ public class StreetsDatabase extends SQLiteOpenHelper {
     private static final String DB_NAME = "street_entries.db";
     private static final String STREETS_TABLE_NAME = "streets";
 
+    private static final String[] SELECT_COLUMNS = {
+            "_id", "old_name", "new_name", "description"
+    };
+
     private final Context context;
 
 
@@ -66,7 +70,7 @@ public class StreetsDatabase extends SQLiteOpenHelper {
 
     private Cursor getAllStreetsCursor() {
         SQLiteDatabase readableDatabase = getReadableDatabase();
-        return QueryTemplates.getAllQuery(readableDatabase, STREETS_TABLE_NAME, false);
+        return QueryTemplates.getAllQuery(readableDatabase, STREETS_TABLE_NAME, SELECT_COLUMNS);
     }
 
     public List<StreetEntry> getStreetsByNameLike(String nameLike) {
@@ -78,7 +82,7 @@ public class StreetsDatabase extends SQLiteOpenHelper {
     }
 
     private String getByNameLikeQuery(String nameLike) {
-        return "SELECT * FROM streets where " +
+        return "SELECT _id, old_name, new_name, description FROM streets where " +
                 "old_name_cmp like '%" + nameLike.toUpperCase() + "%' " +
                 "OR " +
                 "new_name_cmp like '%" + nameLike.toUpperCase() + "%'";
@@ -91,7 +95,7 @@ public class StreetsDatabase extends SQLiteOpenHelper {
     }
 
     public int updateStreetEntry(StreetEntry streetEntry) {
-        Log.d(TAG, "updateStreetEntry: inserting " + streetEntry);
+        Log.d(TAG, "updateStreetEntry: updating " + streetEntry);
         SQLiteDatabase writableDatabase = getWritableDatabase();
         return QueryTemplates.updateByIdQuery(writableDatabase, STREETS_TABLE_NAME, streetEntry.getId(), fromStreetEntry(streetEntry));
     }
@@ -127,8 +131,8 @@ public class StreetsDatabase extends SQLiteOpenHelper {
     private StreetEntry extractStreetFromCursor(Cursor cursor) {
         int id = cursor.getInt(0);
         String oldName = cursor.getString(1);
-        String newName = cursor.getString(3);
-        String description = cursor.getString(5);
+        String newName = cursor.getString(2);
+        String description = cursor.getString(3);
         StreetEntry result = new StreetEntry();
         result.setId(id);
         result.setOldName(oldName);

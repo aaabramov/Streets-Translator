@@ -138,6 +138,7 @@ public class ResultsFragment extends Fragment {
                 findStreets(patternProvider.getPattern());
             }
         });
+
         updateDialog.show(getActivity().getFragmentManager(), TAG);
     }
 
@@ -167,4 +168,6 @@ public class ResultsFragment extends Fragment {
             itemsAdapter.setItems(items);
         }
     }
+
+
 }
