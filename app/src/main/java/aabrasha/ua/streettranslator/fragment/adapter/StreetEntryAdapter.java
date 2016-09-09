@@ -16,6 +16,7 @@ import java.util.List;
 public class StreetEntryAdapter extends AccessibleRecyclerViewAdapter<StreetEntry, StreetEntryViewHolder> {
 
     private List<StreetEntry> items = new ArrayList<>();
+    private String pattern;
 
     @Override
     public StreetEntryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -30,15 +31,17 @@ public class StreetEntryAdapter extends AccessibleRecyclerViewAdapter<StreetEntr
 
     @Override
     public void onBindViewHolder(StreetEntryViewHolder holder, int position) {
-        StreetEntry item = items.get(position);
-        holder.setOldName(item.getOldName());
-        holder.setNewName(item.getNewName());
-        holder.setDescription(item.getDescription());
+        holder.setPattern(pattern);
+        holder.setStreetItem(items.get(position));
     }
 
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
     }
 
     public void setItems(Collection<StreetEntry> items) {

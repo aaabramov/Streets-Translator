@@ -165,6 +165,7 @@ public class ResultsFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<StreetEntry> items) {
+            itemsAdapter.setPattern(patternProvider.getPattern());
             itemsAdapter.setItems(items);
         }
     }
