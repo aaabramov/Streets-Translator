@@ -24,7 +24,7 @@
 			android:tint="@android:color/white"
 			android:src="@drawable/ic_plus"
 			app:fabSize="normal"
-			app:layout_behavior="aabrasha.ua.streettranslator.fragment.ScrollAwareFABBehavior"
+			app:layout_behavior="aabrasha.ua.streettranslator.fragment.ScrollFabBehavior"
 			/>
 
 </android.support.design.widget.CoordinatorLayout>

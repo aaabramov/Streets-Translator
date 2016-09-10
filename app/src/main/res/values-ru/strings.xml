@@ -20,7 +20,7 @@
     <string name="menu_item_delete">Удалить</string>
     <string name="menu_item_edit">Редактировать</string>
     <string name="report_streets_added">Добавлено улиц: %1$d</string>
-    <string name="report_streets_removed">Удалено улиц: %1$d</string>
+    <string name="report_streets_removed">Удалено улицу: %1$s</string>
     <string name="title_add_default_streets">Добавить стандартные улицы</string>
     <string name="title_add_new_street">Добавить новую улицу</string>
     <string name="title_deleting_streets">Удалить улицы</string>
@@ -31,4 +31,5 @@
     <string name="title_edit_street">Редактировать улицу</string>
     <string name="btn_save">Сохранить</string>
     <string name="btn_update">Обновить</string>
+    <string name="title_are_you_sure_to_delete">Вы уверены что хотите удалить: "%1$s"?</string>
 </resources>

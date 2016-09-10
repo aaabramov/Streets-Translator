@@ -15,7 +15,7 @@
 	<ImageView
 			android:layout_width="match_parent"
 			android:layout_height="10dp"
-			android:src="@drawable/arrow_down"/>
+			android:src="@drawable/ic_arrow_down"/>
 
 	<TextView
 			android:id="@+id/item_text_new_street_name"

@@ -35,10 +35,6 @@ public class EditStreetDialog extends DialogFragment {
     private OnDialogDismiss onDialogDismiss;
     private StreetEntry itemToUpdate;
 
-    public static EditStreetDialog newInstance(StreetEntry itemToUpdate) {
-        return newInstance(itemToUpdate, null);
-    }
-
     public static EditStreetDialog newInstance(StreetEntry itemToUpdate, OnDialogDismiss onDialogDismiss) {
         EditStreetDialog dialog = new EditStreetDialog();
         Bundle args = new Bundle();
@@ -76,7 +72,7 @@ public class EditStreetDialog extends DialogFragment {
                 .setPositiveButton(R.string.btn_update, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        updateStreet(dialogInterface);
+                        updateStreet();
                     }
                 }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
                     @Override
@@ -116,21 +112,19 @@ public class EditStreetDialog extends DialogFragment {
         return LayoutInflater.from(getActivity()).inflate(R.layout.dialog_street_details, null);
     }
 
-    private void updateStreet(DialogInterface dialogInterface) {
-        new UpdateStreetTask().execute(dialogInterface);
+    private void updateStreet() {
+        new UpdateStreetTask().execute();
     }
 
-    private class UpdateStreetTask extends AsyncTask<DialogInterface, Void, Boolean> {
+    private class UpdateStreetTask extends AsyncTask<Void, Void, Boolean> {
 
         @Override
-        protected Boolean doInBackground(DialogInterface... dialogs) {
-            DialogInterface dialog = dialogs[0];
+        protected Boolean doInBackground(Void... params) {
 
             if (requiredDataPresents()) {
                 StreetEntry updated = parseStreetEntryFromFields();
                 updated.setId(itemToUpdate.getId());
                 StreetsService.getInstance().updateStreetEntry(updated);
-                dialog.dismiss();
                 return true;
             } else {
                 Log.d(TAG, "update: Not all required fields were filled in");

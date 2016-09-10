@@ -57,11 +57,13 @@ public class StreetEntryAdapter extends AccessibleRecyclerViewAdapter<StreetEntr
     @Override
     public void remove(int position) {
         items.remove(position);
+        notifyItemChanged(position);
     }
 
     @Override
     public void remove(StreetEntry item) {
-        items.remove(item);
-        notifyDataSetChanged();
+        int position = items.indexOf(item);
+        items.remove(position);
+        notifyItemChanged(position);
     }
 }

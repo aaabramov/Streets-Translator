@@ -23,11 +23,12 @@
     </string>
     <string name="title_deleting_streets">Deleting streets</string>
     <string name="hint_are_you_sure_to_delete_all_streets">Are you sure to delete all streets?</string>
-    <string name="report_streets_removed">Streets removed: %1$d</string>
+    <string name="report_streets_removed">Street removed: %1$s</string>
     <string name="report_streets_added">Streets added: %1$d</string>
     <string name="hint_invalid_street_fields">Specify at least `Old name` or `New name`</string>
     <string name="title_success">Success</string>
     <string name="title_edit_street">Edit street</string>
     <string name="btn_save">Save</string>
     <string name="btn_update">Update</string>
+    <string name="title_are_you_sure_to_delete">Are you sure to delete: "%1$s"?</string>
 </resources>

@@ -35,6 +35,7 @@
 			android:hint="@string/hint_new_name"
 			android:textSize="@dimen/edit_text_size"
 			android:layout_marginBottom="@dimen/dialog_vertical_margin"
+			android:inputType="textCapSentences"
 			android:imeOptions="actionNext"
 			android:singleLine="true"/>
 
@@ -50,6 +51,7 @@
 			android:layout_height="wrap_content"
 			android:hint="@string/hint_description"
 			android:textSize="@dimen/edit_text_size"
+			android:inputType="textCapSentences"
 			android:imeOptions="actionDone"
 			android:singleLine="true"/>
 
