@@ -32,6 +32,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.android.support:design:24.2.0'
     compile 'com.android.support:recyclerview-v7:24.2.0'
+    compile 'org.apache.commons:commons-lang3:3.4'
     
     testCompile 'junit:junit:4.12'
     testCompile 'org.codehaus.groovy:groovy:2.4.7:grooid'

@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,13 +25,17 @@ public class StreetsDatabase extends SQLiteOpenHelper {
     private static final int VERSION = 4;
     private static final String DB_NAME = "street_entries.db";
     private static final String STREETS_TABLE_NAME = "streets";
+    private static final String STREETS_COLUMN_ID = "_id";
+    private static final String STREETS_COLUMN_OLD_NAME = "old_name";
+    private static final String STREETS_COLUMN_NEW_NAME = "new_name";
+    private static final String STREETS_COLUMN_DESCRIPTION = "description";
 
-    private static final String[] SELECT_COLUMNS = {
-            "_id", "old_name", "new_name", "description"
+    private static final String[] SELECT_COLUMN_LIST = {
+            STREETS_COLUMN_ID, STREETS_COLUMN_OLD_NAME, STREETS_COLUMN_NEW_NAME, STREETS_COLUMN_DESCRIPTION
     };
+    private static final String SELECT_COLUMNS = StringUtils.join(SELECT_COLUMN_LIST, ',');
 
     private final Context context;
-
 
     public StreetsDatabase(Context context) {
         super(context, DB_NAME, null, VERSION);
@@ -70,7 +75,7 @@ public class StreetsDatabase extends SQLiteOpenHelper {
 
     private Cursor getAllStreetsCursor() {
         SQLiteDatabase readableDatabase = getReadableDatabase();
-        return QueryTemplates.getAllQuery(readableDatabase, STREETS_TABLE_NAME, SELECT_COLUMNS);
+        return QueryTemplates.getAllQuery(readableDatabase, STREETS_TABLE_NAME, SELECT_COLUMN_LIST);
     }
 
     public List<StreetEntry> getStreetsByNameLike(String nameLike) {
@@ -82,7 +87,7 @@ public class StreetsDatabase extends SQLiteOpenHelper {
     }
 
     private String getByNameLikeQuery(String nameLike) {
-        return "SELECT _id, old_name, new_name, description FROM streets where " +
+        return "SELECT " + SELECT_COLUMNS + " FROM " + STREETS_TABLE_NAME + " where " +
                 "old_name_cmp like '%" + nameLike.toUpperCase() + "%' " +
                 "OR " +
                 "new_name_cmp like '%" + nameLike.toUpperCase() + "%'";

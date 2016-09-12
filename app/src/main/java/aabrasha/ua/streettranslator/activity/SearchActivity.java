@@ -4,7 +4,6 @@ import aabrasha.ua.streettranslator.R;
 import aabrasha.ua.streettranslator.fragment.ResultsFragment;
 import aabrasha.ua.streettranslator.fragment.SearchFragment;
 import aabrasha.ua.streettranslator.fragment.adapter.SearchPatternProvider;
-import aabrasha.ua.streettranslator.model.StreetEntry;
 import aabrasha.ua.streettranslator.service.StreetsService;
 import aabrasha.ua.streettranslator.util.TextWatcherAdapter;
 import android.content.Context;
@@ -21,8 +20,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import java.util.List;
 
 import static aabrasha.ua.streettranslator.util.IOUtils.EMPTY_STRING;
 import static java.lang.String.format;
@@ -50,7 +47,7 @@ public class SearchActivity extends AppCompatActivity {
         initFragments();
         initServices();
 
-        findAllStreets();
+        findStreets();
     }
 
     private void initServices() {
@@ -97,7 +94,7 @@ public class SearchActivity extends AppCompatActivity {
         etSearch.addTextChangedListener(new TextWatcherAdapter() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                findStreets(charSequence.toString());
+                findStreets();
             }
         });
 
@@ -110,12 +107,8 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    private void findAllStreets() {
-        findStreets(EMPTY_STRING);
-    }
-
-    private void findStreets(String pattern) {
-        resultsFragment.findStreets(pattern.trim());
+    private void findStreets() {
+        resultsFragment.refreshStreetsResults();
     }
 
     private void focusSearchField() {
@@ -192,14 +185,11 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void populateWithDefaultStreetList() {
-        clearStreetsDatabase();
         new AsyncPopulateWithDefaultTask().execute();
-        findAllStreets();
     }
 
     private void clearStreetsDatabase() {
         new AsyncClearDatabaseTask().execute();
-        findAllStreets();
     }
 
     private class AsyncPopulateWithDefaultTask extends AsyncTask<Void, Void, Integer> {
@@ -213,6 +203,7 @@ public class SearchActivity extends AppCompatActivity {
         protected void onPostExecute(Integer numOfAddedRows) {
             String report = getResources().getString(R.string.report_streets_added);
             Toast.makeText(SearchActivity.this, String.format(report, numOfAddedRows), Toast.LENGTH_SHORT).show();
+            findStreets();
         }
     }
 
@@ -227,6 +218,7 @@ public class SearchActivity extends AppCompatActivity {
         protected void onPostExecute(Integer numOfDeletedRows) {
             String report = getResources().getString(R.string.report_streets_removed);
             Toast.makeText(SearchActivity.this, format(report, numOfDeletedRows), Toast.LENGTH_SHORT).show();
+            findStreets();
         }
     }
 
