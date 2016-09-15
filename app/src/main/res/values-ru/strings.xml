@@ -32,4 +32,7 @@
     <string name="btn_save">Сохранить</string>
     <string name="btn_update">Обновить</string>
     <string name="title_are_you_sure_to_delete">Вы уверены что хотите удалить: "%1$s"?</string>
+    <string name="label_has_new_name">Есть новое название</string>
+    <string name="title_street_name">Название улицы:</string>
+    <string name="hint_street_name">Название улицы</string>
 </resources>

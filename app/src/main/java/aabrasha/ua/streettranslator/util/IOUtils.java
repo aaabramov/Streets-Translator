@@ -6,13 +6,14 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static aabrasha.ua.streettranslator.util.StringUtils.EMPTY_STRING;
+
 /**
  * Created by Andrii Abramov on 8/27/16.
-*/
+ */
 public final class IOUtils {
 
     private static final String TAG = IOUtils.class.getSimpleName();
-    public static final String EMPTY_STRING = "";
 
     /**
      * The stream will be closed after is has been read

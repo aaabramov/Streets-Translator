@@ -6,7 +6,7 @@ import aabrasha.ua.streettranslator.fragment.SearchFragment;
 import aabrasha.ua.streettranslator.fragment.adapter.SearchPatternProvider;
 import aabrasha.ua.streettranslator.service.StreetsService;
 import aabrasha.ua.streettranslator.util.TextWatcherAdapter;
-import android.content.Context;
+import aabrasha.ua.streettranslator.util.ViewUtils;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,11 +17,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import static aabrasha.ua.streettranslator.util.IOUtils.EMPTY_STRING;
+import static aabrasha.ua.streettranslator.util.StringUtils.EMPTY_STRING;
 import static java.lang.String.format;
 
 /**
@@ -112,8 +111,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void focusSearchField() {
-        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.showSoftInput(etSearch, InputMethodManager.SHOW_IMPLICIT);
+        ViewUtils.focusWithKeyboard(etSearch);
     }
 
     @Override

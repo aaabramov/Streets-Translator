@@ -6,13 +6,18 @@ import aabrasha.ua.streettranslator.util.StringHighlightUtils;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import static aabrasha.ua.streettranslator.util.StringUtils.EMPTY_STRING;
 
 public class StreetEntryViewHolder extends RecyclerView.ViewHolder {
 
     private TextView tvOldName;
     private TextView tvNewName;
     private TextView tvDescription;
+
+    private ImageView ivArrow;
 
     private String pattern;
 
@@ -25,6 +30,8 @@ public class StreetEntryViewHolder extends RecyclerView.ViewHolder {
         tvNewName = (TextView) container.findViewById(R.id.item_text_new_street_name);
         tvOldName = (TextView) container.findViewById(R.id.item_text_old_street_name);
         tvDescription = (TextView) container.findViewById(R.id.item_text_street_description);
+
+        ivArrow = (ImageView) container.findViewById(R.id.iv_arrow);
     }
 
     public void setPattern(String pattern) {
@@ -42,7 +49,23 @@ public class StreetEntryViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setNewName(String newName) {
+        if (newName == null) {
+            onEmptyNewName();
+        } else {
+            fillInNewName(newName);
+        }
+    }
+
+    private void onEmptyNewName() {
+        tvNewName.setText(EMPTY_STRING);
+        tvNewName.setVisibility(View.GONE);
+        ivArrow.setVisibility(View.GONE);
+    }
+
+    private void fillInNewName(String newName) {
         tvNewName.setText(fillInPattern(newName));
+        tvNewName.setVisibility(View.VISIBLE);
+        ivArrow.setVisibility(View.VISIBLE);
     }
 
     private void setDescription(String description) {

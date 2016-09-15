@@ -31,4 +31,7 @@
     <string name="btn_save">Save</string>
     <string name="btn_update">Update</string>
     <string name="title_are_you_sure_to_delete">Are you sure to delete: "%1$s"?</string>
+    <string name="label_has_new_name">Has a new name</string>
+    <string name="title_street_name">Street name:</string>
+    <string name="hint_street_name">Street name</string>
 </resources>

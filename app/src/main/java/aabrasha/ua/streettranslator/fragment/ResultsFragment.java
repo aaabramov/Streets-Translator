@@ -151,12 +151,12 @@ public class ResultsFragment extends Fragment {
         itemsAdapter.notifyItemRemoved(position);
     }
 
-    private void updateStreetEntry(int position) {
+    private void updateStreetEntry(final int position) {
         StreetEntry itemToUpdate = itemsAdapter.getItem(position);
         EditStreetDialog updateDialog = EditStreetDialog.newInstance(itemToUpdate, new OnDialogDismiss() {
             @Override
             public void onDismiss() {
-                refreshStreetsResults(); // TODO notifyItemChanged!
+                itemsAdapter.notifyItemChanged(position);
             }
         });
 

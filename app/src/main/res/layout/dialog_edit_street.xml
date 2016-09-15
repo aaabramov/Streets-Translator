@@ -6,43 +6,60 @@
               android:padding="16dp">
 
 	<TextView
+			android:id="@+id/tv_main_old_street_name"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textAppearance="?android:attr/textAppearanceSmall"
-			android:text="@string/title_old_name"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:text="@string/title_street_name"
 			android:layout_marginBottom="@dimen/dialog_vertical_margin"/>
 
 	<EditText
 			android:id="@+id/et_old_name"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:hint="@string/hint_old_name"
+			android:hint="@string/hint_street_name"
 			android:textSize="@dimen/edit_text_size"
 			android:layout_marginBottom="@dimen/dialog_vertical_margin"
 			android:imeOptions="actionNext"
 			android:singleLine="true"/>
 
-	<TextView
+	<CheckBox
+			android:id="@+id/cb_has_new_name"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textAppearance="?android:attr/textAppearanceSmall"
-			android:text="@string/title_new_name"/>
+			android:text="@string/label_has_new_name"/>
 
-	<EditText
-			android:id="@+id/et_new_name"
+
+	<LinearLayout
+			android:id="@+id/container_street_new_name"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:hint="@string/hint_new_name"
-			android:textSize="@dimen/edit_text_size"
-			android:layout_marginBottom="@dimen/dialog_vertical_margin"
-			android:inputType="textCapSentences"
-			android:imeOptions="actionNext"
-			android:singleLine="true"/>
+			android:orientation="vertical"
+			android:visibility="gone">
+
+		<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:text="@string/title_new_name"/>
+
+		<EditText
+				android:id="@+id/et_new_name"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="@string/hint_new_name"
+				android:textSize="@dimen/edit_text_size"
+				android:layout_marginBottom="@dimen/dialog_vertical_margin"
+				android:inputType="textCapSentences"
+				android:imeOptions="actionNext"
+				android:singleLine="true"/>
+
+	</LinearLayout>
 
 	<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:text="@string/title_description"/>
 
 	<EditText
@@ -54,5 +71,6 @@
 			android:inputType="textCapSentences"
 			android:imeOptions="actionDone"
 			android:singleLine="true"/>
+
 
 </LinearLayout>

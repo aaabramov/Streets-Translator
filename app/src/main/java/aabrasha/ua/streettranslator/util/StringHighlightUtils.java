@@ -14,6 +14,10 @@ public class StringHighlightUtils {
     private static final ForegroundColorSpan FOREGROUND = new ForegroundColorSpan(HIGHLIGHT_COLOR);
 
     public static Spannable highlight(String s, String pattern) {
+
+        if (StringUtils.isEmptyOrNull(s))
+            return createSpannable("");
+
         Spannable result = createSpannable(s);
 
         int start = getCaseInsensitiveIndexOf(s, pattern);
