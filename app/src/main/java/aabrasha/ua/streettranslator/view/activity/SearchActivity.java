@@ -1,12 +1,14 @@
-package aabrasha.ua.streettranslator.activity;
+package aabrasha.ua.streettranslator.view.activity;
 
 import aabrasha.ua.streettranslator.R;
-import aabrasha.ua.streettranslator.fragment.ResultsFragment;
-import aabrasha.ua.streettranslator.fragment.SearchFragment;
-import aabrasha.ua.streettranslator.fragment.adapter.SearchPatternProvider;
+import aabrasha.ua.streettranslator.model.SortMethod;
 import aabrasha.ua.streettranslator.service.StreetsService;
 import aabrasha.ua.streettranslator.util.TextWatcherAdapter;
 import aabrasha.ua.streettranslator.util.ViewUtils;
+import aabrasha.ua.streettranslator.view.adapter.SearchPatternProvider;
+import aabrasha.ua.streettranslator.view.fragment.ResultsFragment;
+import aabrasha.ua.streettranslator.view.fragment.SearchFragment;
+import aabrasha.ua.streettranslator.view.fragment.dialog.SelectSortMethodDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,7 +26,7 @@ import static aabrasha.ua.streettranslator.util.StringUtils.EMPTY_STRING;
 import static java.lang.String.format;
 
 /**
- * Created by Andrii Abramov on 8/27/16.
+ * @author Andrii Abramov on 8/27/16.
  */
 public class SearchActivity extends AppCompatActivity {
 
@@ -101,6 +103,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 etSearch.setText(EMPTY_STRING);
+
                 focusSearchField();
             }
         });
@@ -135,11 +138,24 @@ public class SearchActivity extends AppCompatActivity {
             case R.id.menu_item_clear_streets_database:
                 confirmClearDatabaseDialog();
                 break;
+            case R.id.menu_item_sort_method:
+                showSortMethodDialog();
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
 
         return true;
+    }
+
+    private void showSortMethodDialog() {
+        SelectSortMethodDialog dialog = SelectSortMethodDialog.newInstance(new SelectSortMethodDialog.OnSortMethodChangedHandler() {
+            @Override
+            public void onSortMethodChanged(SortMethod newSortMethod) {
+                resultsFragment.setSortMethod(newSortMethod);
+            }
+        });
+        dialog.show(getSupportFragmentManager(), TAG);
     }
 
     private void confirmPopulateWithDefaultDialog() {
@@ -159,7 +175,6 @@ public class SearchActivity extends AppCompatActivity {
                         dialogInterface.dismiss();
                     }
                 }).create().show();
-
     }
 
     private void confirmClearDatabaseDialog() {

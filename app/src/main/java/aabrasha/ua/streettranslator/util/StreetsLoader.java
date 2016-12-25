@@ -20,7 +20,7 @@ public class StreetsLoader {
     private static final String PARTS_DELIMITER = ":";
 
     public List<StreetEntry> getDefaultStreetEntries() {
-        Context appContext = StreetsApplication.getContext();
+        Context appContext = StreetsApplication.getApplication();
         InputStream is = appContext.getResources().openRawResource(R.raw.streets);
         List<String> lines = IOUtils.readLines(is);
         return fromStringList(lines);

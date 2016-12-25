@@ -9,7 +9,7 @@ import android.util.Log;
 import java.util.List;
 
 /**
- * Created by Andrii Abramov on 8/29/16.
+ * @author Andrii Abramov on 8/29/16.
  */
 public class StreetsService {
 
@@ -20,7 +20,7 @@ public class StreetsService {
     private StreetsDatabase streetsDatabase;
 
     private StreetsService() {
-        this.streetsDatabase = StreetsApplication.getStreetsDatabase();
+        this.streetsDatabase = StreetsApplication.getApplication().getStreetsDatabase();
     }
 
     public static StreetsService getInstance() {

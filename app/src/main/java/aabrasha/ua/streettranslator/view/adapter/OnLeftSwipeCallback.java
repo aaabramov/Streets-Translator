@@ -1,4 +1,4 @@
-package aabrasha.ua.streettranslator.fragment.adapter;
+package aabrasha.ua.streettranslator.view.adapter;
 
 import aabrasha.ua.streettranslator.R;
 import aabrasha.ua.streettranslator.StreetsApplication;
@@ -13,23 +13,23 @@ import android.view.View;
 /**
  * Created by Andrii Abramov on 9/4/16.
  */
-public abstract class OnRightSwipeCallback extends ItemTouchHelper.SimpleCallback {
+public abstract class OnLeftSwipeCallback extends ItemTouchHelper.SimpleCallback {
 
-    private static final String TAG = OnRightSwipeCallback.class.getSimpleName();
+    private static final String TAG = OnLeftSwipeCallback.class.getSimpleName();
 
     private static final int NO_DRAG_DIRECTIONS = 0;
-    private static final int SWIPE_DIRECTION_RIGHT = ItemTouchHelper.RIGHT;
+    private static final int SWIPE_DIRECTION_LEFT = ItemTouchHelper.LEFT;
 
     private Context context;
-    private Drawable trashIcon;
+    private Drawable pencilIcon;
     private Drawable background;
 
-    public OnRightSwipeCallback() {
-        super(NO_DRAG_DIRECTIONS, SWIPE_DIRECTION_RIGHT);
-        context = StreetsApplication.getContext();
+    public OnLeftSwipeCallback() {
+        super(NO_DRAG_DIRECTIONS, SWIPE_DIRECTION_LEFT);
+        context = StreetsApplication.getApplication();
 
-        background = getDrawable(R.drawable.item_swipe_to_remove);
-        trashIcon = getDrawable(R.drawable.ic_trash);
+        background = getDrawable(R.drawable.item_swipe_to_edit);
+        pencilIcon = getDrawable(R.drawable.ic_pencil);
     }
 
     private Drawable getDrawable(int id) {
@@ -44,37 +44,37 @@ public abstract class OnRightSwipeCallback extends ItemTouchHelper.SimpleCallbac
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         int adapterPosition = viewHolder.getAdapterPosition();
-        onRightSwipe(adapterPosition);
+        onLeftSwipe(adapterPosition);
     }
 
-    public abstract void onRightSwipe(int position);
+    public abstract void onLeftSwipe(int position);
 
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-            if (dX > 0) {
+            if (dX < 0) {
                 View itemView = viewHolder.itemView;
-                drawDangerBackground(c, (int) dX, itemView);
-                drawTrashIcon(c, itemView);
+                drawEditBackground(c, (int) dX, itemView);
+                drawPencilIcon(c, itemView);
             }
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
     }
 
-    private void drawDangerBackground(Canvas c, int dX, View itemView) {
-        background.setBounds(itemView.getLeft(), itemView.getTop(), dX, itemView.getBottom());
+    private void drawEditBackground(Canvas c, int dX, View itemView) {
+        background.setBounds(itemView.getRight() + dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
         background.draw(c);
     }
 
-    private void drawTrashIcon(Canvas c, View itemView) {
-        int verticalShift = (itemView.getHeight() - trashIcon.getIntrinsicHeight()) / 2;
+    private void drawPencilIcon(Canvas c, View itemView) {
+        int verticalShift = (itemView.getHeight() - pencilIcon.getIntrinsicHeight()) / 2;
 
         int bottom = itemView.getBottom() - verticalShift;
         int top = itemView.getTop() + verticalShift;
-        int left = itemView.getLeft();
-        int right = left + trashIcon.getIntrinsicWidth();
+        int right = itemView.getRight();
+        int left = right - pencilIcon.getIntrinsicWidth();
 
-        trashIcon.setBounds(left, top, right, bottom);
-        trashIcon.draw(c);
+        pencilIcon.setBounds(left, top, right, bottom);
+        pencilIcon.draw(c);
     }
 }

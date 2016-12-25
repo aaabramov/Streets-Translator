@@ -1,4 +1,4 @@
-package aabrasha.ua.streettranslator.fragment;
+package aabrasha.ua.streettranslator.view.fragment;
 
 import aabrasha.ua.streettranslator.R;
 import android.os.Bundle;

@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<item
-			android:id="@+id/menu_item_populate_with_default_streets"
-			android:title="@string/menu_item_add_default"
-			android:icon="@android:drawable/ic_menu_directions"/>
-	<item
-			android:id="@+id/menu_item_clear_streets_database"
-			android:title="@string/menu_item_clear_streets"
-			android:icon="@android:drawable/ic_menu_delete"/>
+    <item
+            android:id="@+id/menu_item_populate_with_default_streets"
+            android:title="@string/menu_item_add_default"
+            android:icon="@android:drawable/ic_menu_directions"/>
+    <item
+            android:id="@+id/menu_item_clear_streets_database"
+            android:title="@string/menu_item_clear_streets"
+            android:icon="@android:drawable/ic_menu_delete"/>
+    <item
+            android:id="@+id/menu_item_sort_method"
+            android:title="@string/menu_item_sort_method"
+            android:icon="@android:drawable/ic_menu_sort_alphabetically"/>
 </menu>

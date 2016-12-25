@@ -1,4 +1,4 @@
-package aabrasha.ua.streettranslator.fragment.adapter;
+package aabrasha.ua.streettranslator.view.adapter;
 
 /**
  * Created by Andrii Abramov on 9/5/16.

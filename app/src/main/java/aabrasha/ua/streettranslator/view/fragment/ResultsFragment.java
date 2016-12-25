@@ -1,17 +1,18 @@
-package aabrasha.ua.streettranslator.fragment;
+package aabrasha.ua.streettranslator.view.fragment;
 
 import aabrasha.ua.streettranslator.R;
-import aabrasha.ua.streettranslator.fragment.adapter.OnLeftSwipeCallback;
-import aabrasha.ua.streettranslator.fragment.adapter.OnRightSwipeCallback;
-import aabrasha.ua.streettranslator.fragment.adapter.SearchPatternProvider;
-import aabrasha.ua.streettranslator.fragment.adapter.StreetEntryAdapter;
-import aabrasha.ua.streettranslator.fragment.dialog.AddStreetDialog;
-import aabrasha.ua.streettranslator.fragment.dialog.EditStreetDialog;
-import aabrasha.ua.streettranslator.fragment.dialog.OnDialogDismiss;
 import aabrasha.ua.streettranslator.material.DividerItemDecoration;
 import aabrasha.ua.streettranslator.material.VerticalSpaceItemDecoration;
+import aabrasha.ua.streettranslator.model.SortMethod;
 import aabrasha.ua.streettranslator.model.StreetEntry;
 import aabrasha.ua.streettranslator.service.StreetsService;
+import aabrasha.ua.streettranslator.view.adapter.OnLeftSwipeCallback;
+import aabrasha.ua.streettranslator.view.adapter.OnRightSwipeCallback;
+import aabrasha.ua.streettranslator.view.adapter.SearchPatternProvider;
+import aabrasha.ua.streettranslator.view.adapter.StreetEntryAdapter;
+import aabrasha.ua.streettranslator.view.fragment.dialog.AddStreetDialog;
+import aabrasha.ua.streettranslator.view.fragment.dialog.EditStreetDialog;
+import aabrasha.ua.streettranslator.view.fragment.dialog.OnDialogDismiss;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -77,6 +78,13 @@ public class ResultsFragment extends Fragment {
                 addStreetDialog.show(getActivity().getFragmentManager(), TAG);
             }
         });
+    }
+
+    public void setSortMethod(SortMethod sortMethod) {
+        itemsAdapter.setSortingMethod(sortMethod);
+
+        String message = "Changed sorting method to: " + sortMethod.getLocalizedString(getContext());
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     private void initRecyclerView(View parent) {
@@ -202,7 +210,7 @@ public class ResultsFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String oldName) {
-            String report = getString(R.string.report_streets_removed, oldName);
+            String report = getString(R.string.report_street_removed, oldName);
             Toast.makeText(getActivity(), report, Toast.LENGTH_SHORT).show();
         }
     }

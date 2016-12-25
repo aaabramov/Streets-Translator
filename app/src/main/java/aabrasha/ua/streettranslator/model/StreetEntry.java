@@ -1,9 +1,10 @@
 package aabrasha.ua.streettranslator.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
- * Created by Andrii Abramov on 8/27/16.
+ * @author Andrii Abramov on 8/27/16.
  */
 public class StreetEntry implements Serializable {
 
@@ -12,11 +13,14 @@ public class StreetEntry implements Serializable {
     private String newName;
     private String description;
 
-    public static StreetEntry from(String oldName, String newName, String description) {
+    private Date insertionDate;
+
+    public static StreetEntry from(String oldName, String newName, String description, Date insertionDate) {
         StreetEntry result = new StreetEntry();
         result.oldName = oldName;
         result.newName = newName;
         result.description = description;
+        result.insertionDate = insertionDate;
         return result;
     }
 
@@ -81,5 +85,13 @@ public class StreetEntry implements Serializable {
                 ", newName='" + newName + '\'' +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    public Date getInsertionDate() {
+        return insertionDate;
+    }
+
+    public void setInsertionDate(Date insertionDate) {
+        this.insertionDate = insertionDate;
     }
 }

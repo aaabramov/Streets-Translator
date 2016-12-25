@@ -21,7 +21,7 @@
 			android:textSize="@dimen/edit_text_size"
 			android:layout_marginBottom="@dimen/dialog_vertical_margin"
 			android:imeOptions="actionNext"
-			android:singleLine="true"/>
+			android:maxLines="1"/>
 
 	<CheckBox
 			android:id="@+id/cb_has_new_name"
@@ -52,7 +52,7 @@
 				android:layout_marginBottom="@dimen/dialog_vertical_margin"
 				android:inputType="textCapSentences"
 				android:imeOptions="actionNext"
-				android:singleLine="true"/>
+				android:maxLines="1"/>
 
 	</LinearLayout>
 
@@ -70,7 +70,7 @@
 			android:textSize="@dimen/edit_text_size"
 			android:inputType="textCapSentences"
 			android:imeOptions="actionDone"
-			android:singleLine="true"/>
+			android:maxLines="1"/>
 
 
 </LinearLayout>

@@ -6,7 +6,7 @@ import android.content.ContentValues;
 import static aabrasha.ua.streettranslator.sqlite.StreetsDatabase.*;
 
 /**
- * Created by Andrii Abramov on 9/15/16.
+ * @author Andrii Abramov on 9/15/16.
  */
 public class StreetEntryContentValues {
 
@@ -27,6 +27,7 @@ public class StreetEntryContentValues {
         }
 
         result.put(STREETS_COLUMN_DESCRIPTION, item.getDescription());
+        result.put(STREETS_COLUMN_INSERTION_DATE, item.getInsertionDate().getTime());
         return result;
     }
 

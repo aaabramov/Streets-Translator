@@ -8,6 +8,7 @@
     <string name="menu_item_delete">Delete</string>
     <string name="menu_item_edit">Edit</string>
     <string name="menu_item_add_street">Add street</string>
+    <string name="menu_item_sort_method">Sort method</string>
     <string name="btn_cancel">Cancel</string>
     <string name="hint_description">Description</string>
     <string name="hint_new_name">New name</string>
@@ -23,7 +24,8 @@
     </string>
     <string name="title_deleting_streets">Deleting streets</string>
     <string name="hint_are_you_sure_to_delete_all_streets">Are you sure to delete all streets?</string>
-    <string name="report_streets_removed">Street removed: %1$s</string>
+    <string name="report_streets_removed">Streets removed: %1$d</string>
+    <string name="report_street_removed">Street removed: %1$s</string>
     <string name="report_streets_added">Streets added: %1$d</string>
     <string name="hint_invalid_street_fields">Specify at least `Old name` or `New name`</string>
     <string name="title_success">Success</string>
@@ -34,4 +36,13 @@
     <string name="label_has_new_name">Has a new name</string>
     <string name="title_street_name">Street name:</string>
     <string name="hint_street_name">Street name</string>
+
+    <string name="sort_method_old_name">By old name</string>
+    <string name="sort_method_new_name">By new name</string>
+    <string name="sort_method_insertion_date">By insertion date</string>
+    <string name="select_sort_method">Select sort method</string>
+    <string name="title_select_sort_method">Select sort method</string>
+
+    <string name="message_sort_method_changed">Changed sorting method to: %1$s</string>
+
 </resources>

@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,12 +32,13 @@ public class StreetsDatabase extends SQLiteOpenHelper {
     public static final String STREETS_COLUMN_NEW_NAME = "new_name";
     public static final String STREETS_COLUMN_NEW_NAME_CMP = "new_name_cmp";
     public static final String STREETS_COLUMN_DESCRIPTION = "description";
+    public static final String STREETS_COLUMN_INSERTION_DATE = "insertion_date";
 
-    private static final int VERSION = 4;
+    private static final int VERSION = 5;
     private static final String DB_NAME = "street_entries.db";
 
     private static final String[] SELECT_COLUMN_LIST = {
-            STREETS_COLUMN_ID, STREETS_COLUMN_OLD_NAME, STREETS_COLUMN_NEW_NAME, STREETS_COLUMN_DESCRIPTION
+            STREETS_COLUMN_ID, STREETS_COLUMN_OLD_NAME, STREETS_COLUMN_NEW_NAME, STREETS_COLUMN_DESCRIPTION, STREETS_COLUMN_INSERTION_DATE
     };
     private static final String SELECT_COLUMNS = StringUtils.join(SELECT_COLUMN_LIST, ',');
 
@@ -100,6 +102,7 @@ public class StreetsDatabase extends SQLiteOpenHelper {
 
     public long insertStreetEntry(StreetEntry streetEntry) {
         Log.d(TAG, "insertStreetEntry: inserting " + streetEntry);
+        streetEntry.setInsertionDate(new Date());
         SQLiteDatabase writableDatabase = getWritableDatabase();
         ContentValues data = StreetEntryContentValues.toContentValues(streetEntry);
         return QueryTemplates.insert(writableDatabase, STREETS_TABLE_NAME, data);

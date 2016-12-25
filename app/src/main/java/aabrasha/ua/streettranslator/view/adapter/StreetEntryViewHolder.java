@@ -1,4 +1,4 @@
-package aabrasha.ua.streettranslator.fragment.adapter;
+package aabrasha.ua.streettranslator.view.adapter;
 
 import aabrasha.ua.streettranslator.R;
 import aabrasha.ua.streettranslator.model.StreetEntry;

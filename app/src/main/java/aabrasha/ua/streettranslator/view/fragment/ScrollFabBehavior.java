@@ -1,4 +1,4 @@
-package aabrasha.ua.streettranslator.fragment;
+package aabrasha.ua.streettranslator.view.fragment;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;

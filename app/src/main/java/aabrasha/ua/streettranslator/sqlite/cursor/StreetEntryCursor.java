@@ -3,8 +3,10 @@ package aabrasha.ua.streettranslator.sqlite.cursor;
 import aabrasha.ua.streettranslator.model.StreetEntry;
 import android.database.Cursor;
 
+import java.util.Date;
+
 /**
- * Created by Andrii Abramov on 9/15/16.
+ * @author Andrii Abramov on 9/15/16.
  */
 public class StreetEntryCursor extends CursorWrapper<StreetEntry> {
 
@@ -23,7 +25,8 @@ public class StreetEntryCursor extends CursorWrapper<StreetEntry> {
         String oldName = cursor.getString(1);
         String newName = cursor.getString(2);
         String description = cursor.getString(3);
-        StreetEntry result = StreetEntry.from(oldName, newName, description);
+        Date insertionDate = new Date(cursor.getLong(4));
+        StreetEntry result = StreetEntry.from(oldName, newName, description, insertionDate);
         result.setId(id);
         return result;
     }

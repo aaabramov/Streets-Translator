@@ -1,22 +1,30 @@
-package aabrasha.ua.streettranslator.fragment.adapter;
+package aabrasha.ua.streettranslator.view.adapter;
 
 import aabrasha.ua.streettranslator.R;
+import aabrasha.ua.streettranslator.StreetsApplication;
+import aabrasha.ua.streettranslator.model.SortMethod;
 import aabrasha.ua.streettranslator.model.StreetEntry;
+import aabrasha.ua.streettranslator.util.StreetsSorters;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
- * Created by Andrii Abramov on 8/28/16.
+ * @author Andrii Abramov on 8/28/16.
  */
 public class StreetEntryAdapter extends AccessibleRecyclerViewAdapter<StreetEntry, StreetEntryViewHolder> {
 
     private List<StreetEntry> items = new ArrayList<>();
     private String pattern;
+    private Comparator<StreetEntry> streetComparator;
+
+    public StreetEntryAdapter() {
+        SortMethod currentSortingMethod = StreetsApplication.getApplication().getSortingManager().getCurrentSortingMethod();
+        streetComparator = StreetsSorters.getStreetEntryComparator(currentSortingMethod);
+    }
 
     @Override
     public StreetEntryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -44,9 +52,19 @@ public class StreetEntryAdapter extends AccessibleRecyclerViewAdapter<StreetEntr
         this.pattern = pattern;
     }
 
-    public void setItems(Collection<StreetEntry> items) {
-        this.items = new ArrayList<>(items);
-        notifyDataSetChanged();
+    public void setSortingMethod(SortMethod streetComparator) {
+        this.streetComparator = StreetsSorters.getStreetEntryComparator(streetComparator);
+        sortItems();
+    }
+
+    public void setItems(Collection<StreetEntry> newEntries) {
+        this.items = new ArrayList<>(newEntries);
+        sortItems();
+    }
+
+    @SuppressWarnings("unchecked")
+    private void sortItems() {
+        new StreetsSorterTask().execute(streetComparator);
     }
 
     @Override
@@ -66,4 +84,20 @@ public class StreetEntryAdapter extends AccessibleRecyclerViewAdapter<StreetEntr
         items.remove(position);
         notifyItemChanged(position);
     }
+
+    private class StreetsSorterTask extends AsyncTask<Comparator<StreetEntry>, Void, Void> {
+
+        @Override
+        @SafeVarargs
+        protected final Void doInBackground(Comparator<StreetEntry>... params) {
+            Collections.sort(items, params[0]);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            notifyDataSetChanged();
+        }
+    }
+
 }

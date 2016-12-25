@@ -19,8 +19,9 @@
     <string name="menu_item_clear_streets">Удалить улицы</string>
     <string name="menu_item_delete">Удалить</string>
     <string name="menu_item_edit">Редактировать</string>
+    <string name="menu_item_sort_method">Способ сортировки</string>
     <string name="report_streets_added">Добавлено улиц: %1$d</string>
-    <string name="report_streets_removed">Удалено улицу: %1$s</string>
+    <string name="report_streets_removed">Удалено улиц: %1$d</string>
     <string name="title_add_default_streets">Добавить стандартные улицы</string>
     <string name="title_add_new_street">Добавить новую улицу</string>
     <string name="title_deleting_streets">Удалить улицы</string>
@@ -35,4 +36,11 @@
     <string name="label_has_new_name">Есть новое название</string>
     <string name="title_street_name">Название улицы:</string>
     <string name="hint_street_name">Название улицы</string>
+
+    <string name="sort_method_old_name">По старому названию</string>
+    <string name="sort_method_new_name">По новому названию</string>
+    <string name="sort_method_insertion_date">По дате вставки</string>
+
+    <string name="message_sort_method_changed">Текущий метод сортировки: %1$s</string>
+
 </resources>

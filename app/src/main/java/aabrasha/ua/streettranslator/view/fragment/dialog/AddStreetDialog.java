@@ -1,4 +1,4 @@
-package aabrasha.ua.streettranslator.fragment.dialog;
+package aabrasha.ua.streettranslator.view.fragment.dialog;
 
 import aabrasha.ua.streettranslator.R;
 import aabrasha.ua.streettranslator.model.StreetEntry;
@@ -17,15 +17,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 
-import static aabrasha.ua.streettranslator.util.StringUtils.EMPTY_STRING;
+import java.util.Date;
+
 import static android.text.TextUtils.isEmpty;
 
 /**
  * Created by Andrii Abramov on 9/3/16.
  */
-public class EditStreetDialog extends DialogFragment {
+public class AddStreetDialog extends DialogFragment {
 
-    private static final String TAG = EditStreetDialog.class.getSimpleName();
+    private static final String TAG = AddStreetDialog.class.getSimpleName();
 
     private Context context;
 
@@ -37,11 +38,10 @@ public class EditStreetDialog extends DialogFragment {
     private CheckBox cbHasNewName;
 
     private OnDialogDismiss onDialogDismiss;
-    private StreetEntry itemToUpdate;
 
-    public static EditStreetDialog newInstance(StreetEntry itemToUpdate, OnDialogDismiss onDialogDismiss) {
-        EditStreetDialog dialog = new EditStreetDialog();
-        dialog.setItemToUpdate(itemToUpdate);
+
+    public static AddStreetDialog newInstance(OnDialogDismiss onDialogDismiss) {
+        AddStreetDialog dialog = new AddStreetDialog();
         dialog.onDialogDismiss = onDialogDismiss;
         return dialog;
     }
@@ -49,8 +49,27 @@ public class EditStreetDialog extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         context = getActivity();
+    }
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        final View dialogContent = initView();
+        return new AlertDialog.Builder(context)
+                .setCancelable(true)
+                .setTitle(R.string.title_add_new_street)
+                .setView(dialogContent)
+                .setPositiveButton(R.string.btn_save, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        saveStreet();
+                    }
+                }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).create();
     }
 
     private View initView() {
@@ -68,63 +87,25 @@ public class EditStreetDialog extends DialogFragment {
                 hasNewNameChecked(isChecked);
             }
         });
-
-        fillData();
-
         return result;
     }
 
     private void hasNewNameChecked(boolean isChecked) {
         if (isChecked) {
             llNewNameContainer.setVisibility(View.VISIBLE);
+            ViewUtils.focusWithKeyboard(etNewName);
         } else {
             llNewNameContainer.setVisibility(View.GONE);
+            ViewUtils.focusWithKeyboard(etOldName);
         }
     }
 
-    private void fillData() {
-        etOldName.setText(itemToUpdate.getOldName());
-
-        String newName = itemToUpdate.getNewName();
-        fillInNewName(newName);
-
-        etDescription.setText(itemToUpdate.getDescription());
+    private View getDialogView() {
+        return LayoutInflater.from(getActivity()).inflate(R.layout.dialog_edit_street, null);
     }
 
-    private void fillInNewName(String newName) {
-        if (newName != null) {
-            etNewName.setText(newName);
-            cbHasNewName.setChecked(true);
-            llNewNameContainer.setVisibility(View.VISIBLE);
-        } else {
-            etNewName.setText(EMPTY_STRING);
-            cbHasNewName.setChecked(false);
-            llNewNameContainer.setVisibility(View.GONE);
-        }
-    }
-
-    public void setItemToUpdate(StreetEntry itemToUpdate) {
-        this.itemToUpdate = itemToUpdate;
-    }
-
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final View dialogContent = initView();
-        return new AlertDialog.Builder(context)
-                .setCancelable(true)
-                .setTitle(R.string.title_edit_street)
-                .setView(dialogContent)
-                .setPositiveButton(R.string.btn_update, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        updateStreet();
-                    }
-                }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                }).create();
+    private void saveStreet() {
+        new SaveStreetTask().execute();
     }
 
     @Override
@@ -135,25 +116,17 @@ public class EditStreetDialog extends DialogFragment {
         }
     }
 
-
-    private View getDialogView() {
-        return LayoutInflater.from(getActivity()).inflate(R.layout.dialog_edit_street, null);
-    }
-
-    private void updateStreet() {
-        new UpdateStreetTask().execute();
-    }
-
-    private class UpdateStreetTask extends AsyncTask<Void, Void, Boolean> {
+    private class SaveStreetTask extends AsyncTask<Void, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(Void... params) {
 
             if (requiredDataPresents()) {
-                updateItem();
+                StreetEntry added = parseStreetEntryFromFields();
+                StreetsService.getInstance().addNewStreetEntry(added);
                 return true;
             } else {
-                Log.d(TAG, "update: Not all required fields were filled in");
+                Log.d(TAG, "saveStreet: Not all required fields were filled in");
                 return false;
             }
         }
@@ -162,21 +135,20 @@ public class EditStreetDialog extends DialogFragment {
             return !isEmpty(etOldName.getText()) || !isEmpty(etNewName.getText());
         }
 
-        private void updateItem() {
+        private StreetEntry parseStreetEntryFromFields() {
             String oldName = ViewUtils.getText(etOldName);
-            itemToUpdate.setOldName(oldName);
-
-            String newName = isNewNamePresent() ? ViewUtils.getText(etNewName) : null;
-            itemToUpdate.setNewName(newName);
-
+            String newName = isNewNamePresent() ? parseNewName() : null;
             String description = ViewUtils.getText(etDescription);
-            itemToUpdate.setDescription(description);
-
-            StreetsService.getInstance().updateStreetEntry(itemToUpdate);
+            Date insertionDate = new Date();
+            return StreetEntry.from(oldName, newName, description, insertionDate);
         }
 
         private boolean isNewNamePresent() {
             return cbHasNewName.isChecked() && !TextUtils.isEmpty(ViewUtils.getText(etNewName));
+        }
+
+        private String parseNewName() {
+            return ViewUtils.getText(etNewName);
         }
 
         @Override
