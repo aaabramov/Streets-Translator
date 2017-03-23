@@ -13,7 +13,6 @@ import static aabrasha.ua.streettranslator.util.StreetNameCleaner.clean;
 /**
  * @author Andrii Abramov on 12/25/16.
  */
-
 public final class StreetsSorters {
 
     private static Map<SortMethod, Comparator<StreetEntry>> comparators = new HashMap<>();

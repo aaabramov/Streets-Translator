@@ -9,7 +9,6 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * @author Andrii Abramov on 12/25/16.
  */
-
 public class SortingManager {
 
     private final Context context;

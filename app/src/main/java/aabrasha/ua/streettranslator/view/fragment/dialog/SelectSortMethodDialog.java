@@ -13,7 +13,6 @@ import android.support.v7.app.AlertDialog;
 /**
  * @author Andrii Abramov on 12/25/16.
  */
-
 public class SelectSortMethodDialog extends DialogFragment {
 
     private OnSortMethodChangedHandler onSortMethodChangedHandler;

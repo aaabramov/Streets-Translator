@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 /**
- * Created by Andrii Abramov on 8/29/16.
+ * @author Andrii Abramov on 8/29/16.
  */
 public final class QueryTemplates {
 

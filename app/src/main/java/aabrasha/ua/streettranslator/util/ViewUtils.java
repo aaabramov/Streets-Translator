@@ -6,7 +6,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 /**
- * Created by Andrii Abramov on 9/15/16.
+ * @author Andrii Abramov on 9/15/16.
  */
 public final class ViewUtils {
 

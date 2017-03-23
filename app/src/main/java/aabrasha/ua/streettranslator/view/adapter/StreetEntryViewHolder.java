@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import static aabrasha.ua.streettranslator.util.StringUtils.EMPTY_STRING;
 
+/**
+ * @author Andrii Abramov on 8/28/16.
+ */
 public class StreetEntryViewHolder extends RecyclerView.ViewHolder {
 
     private TextView tvOldName;

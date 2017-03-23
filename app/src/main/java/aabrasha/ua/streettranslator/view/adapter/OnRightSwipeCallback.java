@@ -11,7 +11,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 /**
- * Created by Andrii Abramov on 9/4/16.
+ * @author Andrii Abramov on 9/4/16.
  */
 public abstract class OnRightSwipeCallback extends ItemTouchHelper.SimpleCallback {
 

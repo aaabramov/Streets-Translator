@@ -22,7 +22,7 @@ import java.util.Date;
 import static android.text.TextUtils.isEmpty;
 
 /**
- * Created by Andrii Abramov on 9/3/16.
+ * @author Andrii Abramov on 9/3/16.
  */
 public class AddStreetDialog extends DialogFragment {
 

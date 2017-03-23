@@ -5,7 +5,7 @@ import aabrasha.ua.streettranslator.sqlite.StreetsDatabase;
 import android.app.Application;
 
 /**
- * Created by Andrii Abramov on 9/3/16.
+ * @author Andrii Abramov on 9/3/16.
  */
 public class StreetsApplication extends Application {
 

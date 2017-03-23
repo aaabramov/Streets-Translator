@@ -6,7 +6,7 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 
 /**
- * Created by Andrii Abramov on 9/8/16.
+ * @author Andrii Abramov on 9/8/16.
  */
 public class StringHighlightUtils {
 

@@ -1,7 +1,7 @@
 package aabrasha.ua.streettranslator.util;
 
 /**
- * Created by Andrii Abramov on 9/16/16.
+ * @author Andrii Abramov on 9/16/16.
  */
 public final class StringUtils {
 

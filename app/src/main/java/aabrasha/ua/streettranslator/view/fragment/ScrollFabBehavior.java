@@ -7,6 +7,9 @@ import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
+/**
+ * @author Andrii Abramov on 8/28/16.
+ */
 public class ScrollFabBehavior extends FloatingActionButton.Behavior {
 
     public ScrollFabBehavior(Context context, AttributeSet attrs) {

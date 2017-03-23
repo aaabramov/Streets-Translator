@@ -9,7 +9,7 @@ import java.util.List;
 import static aabrasha.ua.streettranslator.util.StringUtils.EMPTY_STRING;
 
 /**
- * Created by Andrii Abramov on 8/27/16.
+ * @author Andrii Abramov on 8/27/16.
  */
 public final class IOUtils {
 

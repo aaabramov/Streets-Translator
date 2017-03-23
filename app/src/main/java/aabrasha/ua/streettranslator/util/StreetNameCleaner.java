@@ -3,7 +3,6 @@ package aabrasha.ua.streettranslator.util;
 /**
  * @author Andrii Abramov on 12/25/16.
  */
-
 public class StreetNameCleaner {
 
     public static String clean(String name) {

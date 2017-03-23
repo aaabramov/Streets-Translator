@@ -3,7 +3,7 @@ package aabrasha.ua.streettranslator.util;
 import java.util.Collection;
 
 /**
- * Created by Andrii Abramov on 8/31/16.
+ * @author Andrii Abramov on 8/31/16.
  */
 public final class CollectionsUtil {
 
